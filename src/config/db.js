@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const mongodbClient = require("mongodb").MongoClient;
-const csvtojson = require("csvtojson");
 const dotenv = require("dotenv");
 dotenv.config();
 const fs = require("fs");

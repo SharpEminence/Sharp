@@ -1,6 +1,5 @@
 const requestHelper = require("../../common/request_helper");
-const Joi = require("joi");
-const utils = require("../../common/utils");
+
 const ObjectID = require("mongodb").ObjectID;
 class UserService {
   constructor(UserModel, ProfileModel) {

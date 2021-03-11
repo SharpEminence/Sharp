@@ -1,9 +1,8 @@
-const Joi = require("joi");
-const md5 = require("md5");
+
 const ObjectID = require("mongodb").ObjectID;
 
 const requestHelper = require("../../common/request_helper");
-const utils = require("../../common/utils");
+
 
 class AgendaService {
   constructor(AgendaModel) {

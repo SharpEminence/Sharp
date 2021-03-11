@@ -50,7 +50,7 @@ class AuthService {
               user
             },
           };
-
+          
           return requestHelper.respondWithJsonBody(200, this._response);
         } else {
           this._response = {
