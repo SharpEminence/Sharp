@@ -19,5 +19,9 @@ router.post("/deleteAgenda/:id", jwtMiddleWare, async (req, res) => {
   const result = await agendaService.deleteAgenda(req);
   return requestHelper.handleResponse(res, result);
 });
+router.post("/addFavouriteAgenda", jwtMiddleWare, async (req, res) => {
+  const result = await agendaService.addFavouriteAgenda(req);
+  return requestHelper.handleResponse(res, result);
+});
 
 module.exports = router;

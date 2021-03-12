@@ -1,16 +1,17 @@
-
 const ObjectID = require("mongodb").ObjectID;
+const Joi = require("@hapi/joi");
 
 const requestHelper = require("../../common/request_helper");
-
+const utils = require("../../common/utils");
 
 class AgendaService {
-  constructor(AgendaModel) {
+  constructor(AgendaModel, AgendaFavouriteModel) {
     this.AgendaModel = AgendaModel;
-   this.updateAgenda = this.updateAgenda.bind(this)
+    this.AgendaFavouriteModel = AgendaFavouriteModel;
+    this.updateAgenda = this.updateAgenda.bind(this);
     this.getAgendas = this.getAgendas.bind(this);
-    this.createAgenda = this.createAgenda.bind(this)
-    this.deleteAgenda = this.deleteAgenda.bind(this)
+    this.createAgenda = this.createAgenda.bind(this);
+    this.deleteAgenda = this.deleteAgenda.bind(this);
 
     this._response = {
       status: false,
@@ -24,14 +25,7 @@ class AgendaService {
     return requestHelper.respondWithJsonBody(200, this._response);
   }
 
-  async createFavAgenda(req){
-try{
-
-}catch{
-  
-}
-  }
-  async updateAgenda(req){
+  async updateAgenda(req) {
     try {
       let id = req.params.id;
       let body = req.body;
@@ -65,12 +59,12 @@ try{
       return requestHelper.respondWithJsonBody(500, this._response);
     }
   }
-  
-  async deleteAgenda(req){
+
+  async deleteAgenda(req) {
     try {
       let id = req.params.id;
       let body = req.body;
-     
+
       let result = await this.AgendaModel.deleteOne({ _id: id });
       if (result) {
         this._response = {
@@ -102,6 +96,7 @@ try{
         time: req.body.time,
         title: req.body.title,
         description: req.body.description,
+        profile_img: req.body.profile_img,
       });
       await doc.save();
       this._response = {
@@ -110,6 +105,60 @@ try{
         doc,
       };
       return requestHelper.respondWithJsonBody(200, this._response);
+    } catch (err) {
+      this._response = { message: err.message };
+      if (err && err.status_code == 400) {
+        return requestHelper.respondWithJsonBody(400, this._response);
+      }
+      return requestHelper.respondWithJsonBody(500, this._response);
+    }
+  }
+
+  //Favourite Agendas
+
+  async addFavouriteAgenda(req) {
+    try {
+      const body = req.body;
+      const schema = Joi.object().keys({
+        agenda_id: Joi.string().required(),
+        user_id: Joi.string().required(),
+        status: Joi.number().required(),
+      });
+      await utils.validate(body, schema);
+
+      var findFavourite = await this.AgendaFavouriteModel.findOne({
+        agenda_id: body.agenda_id,
+        user_id: body.user_id,
+      }).exec();
+      console.log("helloooooooooooooooooooo" + findFavourite);
+      if (findFavourite) {
+        await this.AgendaFavouriteModel.findByIdAndUpdate(
+          { _id: findFavourite._id },
+          { status: body.status }
+        );
+        this._response = {
+          status: true,
+          message:
+            body.status == 1
+              ? "Agenda added as favorite."
+              : "Agenda removed from favorite.",
+        };
+
+        return requestHelper.respondWithJsonBody(200, this._response);
+      } else {
+        const AddFavourite = new this.AgendaFavouriteModel({
+          agenda_id: body.agenda_id,
+          user_id: body.user_id,
+          status: body.status,
+        });
+        await AddFavourite.save();
+        this._response = {
+          status: true,
+          message: "Agenda added to favourites",
+        };
+
+        return requestHelper.respondWithJsonBody(200, this._response);
+      }
     } catch (err) {
       this._response = { message: err.message };
       if (err && err.status_code == 400) {
