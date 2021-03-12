@@ -126,7 +126,7 @@ class AgendaService {
       });
       await utils.validate(body, schema);
 
-      var findFavourite = await this.AgendaFavouriteModel.findOne({
+      let findFavourite = await this.AgendaFavouriteModel.findOne({
         agenda_id: body.agenda_id,
         user_id: body.user_id,
       }).exec();
@@ -155,6 +155,50 @@ class AgendaService {
         this._response = {
           status: true,
           message: "Agenda added to favourites",
+        };
+
+        return requestHelper.respondWithJsonBody(200, this._response);
+      }
+    } catch (err) {
+      this._response = { message: err.message };
+      if (err && err.status_code == 400) {
+        return requestHelper.respondWithJsonBody(400, this._response);
+      }
+      return requestHelper.respondWithJsonBody(500, this._response);
+    }
+  }
+
+  async getAgendaById(req) {
+    try {
+      const id = req.params.id;
+      const body = req.body;
+
+      let findFavourite = await this.AgendaFavouriteModel.find({
+        user_id: id,
+        status: 1,
+      });
+     
+     console.log('hjddffdfd',findFavourite)
+      if (findFavourite.length) {
+        // const values = Object.values(findFavourite)
+        // // console.log('hj',findFavourite)
+        let data = await this.AgendaModel.find({
+          _id: findFavourite.map((d) => {
+            return d.agenda_id;
+          }),
+        });
+        this._response = {
+          status: true,
+          message: "data fetched succesfully",
+          data: data,
+        };
+
+        return requestHelper.respondWithJsonBody(200, this._response);
+      } else {
+        
+        this._response = {
+          status: true,
+          message: "No Agendas Right Now",
         };
 
         return requestHelper.respondWithJsonBody(200, this._response);

@@ -23,5 +23,8 @@ router.post("/addFavouriteAgenda", jwtMiddleWare, async (req, res) => {
   const result = await agendaService.addFavouriteAgenda(req);
   return requestHelper.handleResponse(res, result);
 });
-
+router.get("/getAgendaById/:id", jwtMiddleWare, async (req, res) => {
+  const result = await agendaService.getAgendaById(req);
+  return requestHelper.handleResponse(res, result);
+});
 module.exports = router;
