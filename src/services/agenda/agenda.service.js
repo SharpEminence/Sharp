@@ -177,8 +177,8 @@ class AgendaService {
         user_id: id,
         status: 1,
       });
-     
-     console.log('hjddffdfd',findFavourite)
+
+      console.log("hjddffdfd", findFavourite);
       if (findFavourite.length) {
         // const values = Object.values(findFavourite)
         // // console.log('hj',findFavourite)
@@ -195,12 +195,47 @@ class AgendaService {
 
         return requestHelper.respondWithJsonBody(200, this._response);
       } else {
-        
         this._response = {
           status: true,
           message: "No Agendas Right Now",
         };
 
+        return requestHelper.respondWithJsonBody(200, this._response);
+      }
+    } catch (err) {
+      this._response = { message: err.message };
+      if (err && err.status_code == 400) {
+        return requestHelper.respondWithJsonBody(400, this._response);
+      }
+      return requestHelper.respondWithJsonBody(500, this._response);
+    }
+  }
+
+  async searchAgenda(req) {
+    try {
+      console.log("req", req.query.q);
+      const offset = req.query.offset ? parseInt(req.query.offset) : 20;
+      const page = req.query.page ? parseInt(req.query.page) : 1;
+      const search = req.query.q || "";
+      const regex = new RegExp(search, "i");
+      let total = await this.AgendaModel.find({
+        $or: [{ title: regex }, { day: regex }, { time: regex }],
+      }).countDocuments();
+
+      let filteredAgenda = await this.AgendaModel.find({
+        $or: [{ title: regex }, { day: regex }, { time: regex }],
+      })
+        .skip((page - 1) * offset)
+        .limit(offset);
+      if (filteredAgenda) {
+        this._response = { status: true, total, page, data: filteredAgenda };
+        return requestHelper.respondWithJsonBody(200, this._response);
+      } else {
+        this._response = {
+          status: false,
+          message: "No data found!",
+          data: null,
+        };
         return requestHelper.respondWithJsonBody(200, this._response);
       }
     } catch (err) {

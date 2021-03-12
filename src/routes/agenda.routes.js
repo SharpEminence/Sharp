@@ -27,4 +27,8 @@ router.get("/getAgendaById/:id", jwtMiddleWare, async (req, res) => {
   const result = await agendaService.getAgendaById(req);
   return requestHelper.handleResponse(res, result);
 });
+router.get('/search', jwtMiddleWare, async (req, res)=>{
+  const result = await agendaService.searchAgenda(req)
+  return requestHelper.handleResponse(res, result)
+})
 module.exports = router;
