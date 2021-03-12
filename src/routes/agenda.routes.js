@@ -11,5 +11,13 @@ router.post("/createAgenda", jwtMiddleWare, async (req, res) => {
   const result = await agendaService.createAgenda(req);
   return requestHelper.handleResponse(res, result);
 });
+router.post("/updateAgenda/:id", jwtMiddleWare, async (req, res) => {
+  const result = await agendaService.updateAgenda(req);
+  return requestHelper.handleResponse(res, result);
+});
+router.post("/deleteAgenda/:id", jwtMiddleWare, async (req, res) => {
+  const result = await agendaService.deleteAgenda(req);
+  return requestHelper.handleResponse(res, result);
+});
 
 module.exports = router;

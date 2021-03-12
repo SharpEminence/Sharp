@@ -25,11 +25,11 @@ function connectToDatabase() {
 }
 
 module.exports = class DBManager {
-  async csv() {
+  async csv(file) {
     const db = await connectToDatabase();
 
     try {
-      var file = "data.csv";
+      // var file = "data.csv";
       var stream = fs.createReadStream(file);
       await csvtojson()
         .fromStream(stream, { headers: true })
@@ -42,14 +42,33 @@ module.exports = class DBManager {
               .count();
             console.log("hey", cursor);
             if (cursor == 0)
-              await db.collection("users").insertOne({
-                email: json["Email"],
-                password: md5(json["Password"]),
-                firstname: json["Firstname"],
-                lastname: json["Lastname"],
-                profile_img: json["Photo"],
-                event: json["Event"],
-              });
+            // const doc = new this.AgendaModel({
+            //   day: req.body.day,
+            //   time: req.body.time,
+            //   title: req.body.title,
+            //   description: req.body.description,
+            // });
+            // await doc.save();
+            // let data ={
+            //   email: json["Email"],
+            //     password: md5(json["Password"])
+            // }
+            new db.collection("users").data.save()
+            // await doc.save(); 
+              // await db.collection("users").insertOne({
+              //   email: json["Email"],
+              //   password: md5(json["Password"]),
+              //   firstname: json["Firstname"],
+              //   lastname: json["Lastname"],
+              //   profile_img: json["Photo"],
+              //   event: json["Event"],
+              // }).populate('profile');
+              // await db.collection("userProfile").insertOne({
+              //   firstname: json["Firstname"],
+              //   lastname: json["Lastname"],
+              //   profile_img: json["Photo"],
+              //   event: json["Event"],
+              // })
           }
         });
 

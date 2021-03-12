@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const Joi = require('joi');
+const Joi = require('@hapi/joi')
 //Create JWT
 const createJWT = parsedBody => {
     return jwt.sign(JSON.stringify(parsedBody), process.env.SHARED_SECRET);

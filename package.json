@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@cometchat-pro/chat": "^2.0.12",
+    "@hapi/joi": "^15.0.3",
     "axios": "^0.21.1",
     "ba64": "^3.0.9",
     "body-parser": "^1.19.0",

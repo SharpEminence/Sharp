@@ -7,6 +7,9 @@ let userSchema = mongoose.Schema({
   password: {
     type: String,
   },
+  role:{
+    type:String
+  },
   profile: { type: mongoose.Schema.Types.ObjectId, ref: "userProfile" },
   
 },
