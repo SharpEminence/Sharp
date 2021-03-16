@@ -6,7 +6,7 @@ const MeetupLounges = () => {
   return (
     <div>
       <Layout>
-        <div className="content-sec meetuplounges" style={{ marginTop: "60px" }}>
+        <div className="content-sec meetuplounges sideSpacing_allPage" >
           <div className="container">
             {/*----==================page main heading start==================----*/}
             <div className="page-heading">

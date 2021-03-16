@@ -1,28 +1,64 @@
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-
+// import Carousel from "react-multi-carousel";
+// import "react-multi-carousel/lib/styles.css";
+import React, { useState } from "react";
+import ItemsCarousel from "react-items-carousel";
 const ConfrenceCarousel = () => {
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const chevronWidth = 80;
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     // the naming can be any, depends on you.
+  //     breakpoint: { max: 4000, min: 3000 },
+  //     items: 5,
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 3000, min: 1024 },
+  //     items: 3,
+  //   },
+  //   tablet: {
+  //     breakpoint: { max: 1024, min: 464 },
+  //     items: 2,
+  //   },
+  //   mobile: {
+  //     breakpoint: { max: 464, min: 0 },
+  //     items: 1,
+  //   },
+  // };
   return (
-    <Carousel responsive={responsive}>
+    // <Carousel responsive={responsive}>
+      <div style={{ padding: `0 ${chevronWidth}px` }}>
+         <ItemsCarousel  
+        requestToChangeActive={setActiveItemIndex}
+        activeItemIndex={activeItemIndex}
+        numberOfCards={3}
+        gutter={20}
+        leftChevron={
+          <button style={{ backgroundColor: "white", border: "none" }}>
+            
+            <img
+              src={
+                process.env.PUBLIC_URL + "/assets/images/dashbigsrrowprev.png"
+              }
+              alt=""
+              style={{height:"55px"}}
+            />
+          </button>
+        }
+        rightChevron={
+          <button style={{ backgroundColor: "white", border: "none" }}>
+            
+            <img
+              src={
+                process.env.PUBLIC_URL + "/assets/images/dashbigsrrownext.png"
+              }
+              style={{height:"55px"}}
+              alt=""
+            />
+          </button>
+        }
+        outsideChevron
+        chevronWidth={chevronWidth}
+      >
       <div>
         <div className="dg-slide-item">
           <div className="slider-type-one">
@@ -263,7 +299,9 @@ const ConfrenceCarousel = () => {
           </div>
         </div>
       </div>
-    </Carousel>
+      </ItemsCarousel>
+      </div>
+    // </Carousel>
   );
 };
 

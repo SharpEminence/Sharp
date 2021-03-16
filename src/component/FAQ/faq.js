@@ -6,15 +6,15 @@ const Mainstage = () => {
   return (
     <div>
       <Layout>
-        <div className="content-sec faq" style={{ marginTop: "60px" }}>
-          <div className="container">
+        <div className="content-sec faq sideSpacing_allPage"  >
+          <div className="container" >
             {/*----==================page main heading start==================----*/}
             <div className="page-heading">
               <h2>FAQ</h2>
             </div>
             {/*----==================page main heading ends==================----*/}
             {/*----==================faq listing section start==================----*/}
-            <div className="cmnlistwrap faqlistwrap orange-box">
+            <div className="cmnlistwrap faqlistwrap purple-box">
               <div className="cmnlist row">
                 <div className="col-lg-12 p-0">
                   <div className="cmnlisttxt">

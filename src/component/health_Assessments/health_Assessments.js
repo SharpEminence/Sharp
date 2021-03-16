@@ -7,8 +7,8 @@ const Health_Assessments = (props) => {
     <div>
       <Layout>
         <div
-          className="content-sec healthasesment"
-          style={{ marginTop: "100px" }}
+          className="content-sec healthasesment sideSpacing_allPage"
+         
         >
           <div className="container">
             {/*----==================page main heading start==================----*/}

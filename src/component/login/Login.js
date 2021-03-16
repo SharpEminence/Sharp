@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-// import Countdown from "./countdown";
 import ReactDOM from "react-dom";
 import Countdown from "react-countdown";
-
+import { ToastContainer, toast } from 'react-toast'
+import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/action";
+// import M from "materialize-css";
 const Login = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  //FORM DATA
+  const [email, setEmail] = useState("");
+  const [password, setPasword] = useState("");
+  console.log("LOGIN_INPUT====>", email, password);
+
+  //CLICK OPERATION
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
@@ -15,7 +25,49 @@ const Login = () => {
   const onOpenModal1 = () => setOpen1(true);
   const onCloseModal1 = () => setOpen1(false);
   const Completionist = () => <span>You are good to go!</span>;
+  const [loginCheck1, SetLoginCheck] = useState(false);
+  console.log("logincheck", loginCheck1);
+  const PostData = () => {
+    //console.log("heloo Login");
+    fetch("/api/v1/auth/login", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password,
+        email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("USER_DATA====>", data);
 
+        if (data.data.token) {
+          localStorage.setItem("jwt", data.data.token);
+          localStorage.setItem("user", JSON.stringify(data.data.user));
+          dispatch(addUser(data.data.user));
+          //dispatch({type:"USER",payload:data.user})
+          toast.error("err")
+          // M.toast({
+          //   html: "LOGIN SUCCESSFULL !",
+          //   classes: "#43a047 green darken-1",
+          // });
+          history.push("/dashBoard");
+        } else {
+          history.push("/Login");
+          toast.error("jhgajds")
+
+          // M.toast({ html: "LOGIN FAILED !", classes: "#c62828 red darken-3" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const loginCheck = () => {
+    SetLoginCheck((loginCheck1) => !loginCheck1);
+  };
   // Renderer callback with condition
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -73,8 +125,7 @@ const Login = () => {
       );
     }
   };
-  // const currentDate = new Date();
-  // const year = (currentDate.getMonth() === 11 && currentDate.getDate() > 23) ? currentDate.getFullYear() + 1 : currentDate.getFullYear();
+
   return (
     <div>
       <div className="nhmLoginwrap">
@@ -121,17 +172,29 @@ const Login = () => {
                     <form className="formField">
                       <div className="form-group">
                         <label>E-MAIL ADDRESS</label>
-                        <input type="email" className="form-control" />
+                        <input
+                          type="email"
+                          className="form-control"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          
+                        />
                       </div>
                       <div className="form-group">
                         <label>PASSWORD</label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={password}
+                          onChange={(e) => setPasword(e.target.value)}
+                        />
                       </div>
                       <div className="checkBoxBtn">
                         <div className="form-check">
                           <input
                             className="form-check-input"
                             type="checkbox"
+                            onClick={loginCheck}
                             defaultValue
                             id="flexCheckDefault"
                           />
@@ -150,15 +213,31 @@ const Login = () => {
                             <span onClick={onOpenModal1}> PRIVACY POLICY</span>
                           </label>
                         </div>
-                        <button
-                          type="button"
-                          className="loginBtn"
-                          data-toggle="modal"
-                          data-target="#cmn-popup"
-                          onClick={onOpenModal}
-                        >
-                          Login
-                        </button>
+
+                        {loginCheck1 ? (
+                          <button
+                            type="button"
+                            className="loginBtn"
+                            data-toggle="modal"
+                            data-target="#cmn-popup"
+                            // onClick={onOpenModal}
+                            onClick={() => PostData()}
+                          >
+                            Login
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="loginBtndis"
+                            data-toggle="modal"
+                            data-target="#cmn-popup"
+                            disabled={true}
+                            // onClick={onOpenModal}
+                            onClick={() => PostData()}
+                          >
+                            Login
+                          </button>
+                        )}
                       </div>
                       <div className="form-error" style={{ display: "none" }}>
                         <p>
@@ -894,8 +973,11 @@ const Login = () => {
         </div>
         {/* </div> */}
       </Modal>
+   
+      <ToastContainer />
     </div>
-  );
+ 
+ );
 };
 
 export default Login;
