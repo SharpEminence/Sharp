@@ -1,3 +1,4 @@
+const { binary } = require("joi");
 let mongoose = require("mongoose");
 
 let agendaSchema = mongoose.Schema({
@@ -15,7 +16,7 @@ let agendaSchema = mongoose.Schema({
   },
   profile_img:{
     type: String,
-    default: "boat.png"
+    
   }
   
 });

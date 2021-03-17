@@ -13,6 +13,10 @@ const jwtMiddleWare = require('../middleware/jwt-auth')
         const result = await userService.updateProfile(req)
         return requestHelper.handleResponse(res,result)
     })
+    router.post('/updatepic/:id',jwtMiddleWare,async(req,res)=>{
+        const result = await userService.uploadProfileImage(req)
+        return requestHelper.handleResponse(res,result)
+    })
   
 
 

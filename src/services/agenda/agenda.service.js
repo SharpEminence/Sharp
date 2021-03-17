@@ -21,7 +21,7 @@ class AgendaService {
 
   async getAgendas() {
     const results = await this.AgendaModel.find();
-    this._response = { status: true, data: results };
+    this._response = { status: true, data: results,total:results.length };
     return requestHelper.respondWithJsonBody(200, this._response);
   }
 
@@ -29,7 +29,7 @@ class AgendaService {
     try {
       let id = req.params.id;
       let body = req.body;
-
+      console.log("ree", req.body, id);
       let result = await this.AgendaModel.findOneAndUpdate(
         { _id: ObjectID(id) },
         { $set: body },
@@ -118,11 +118,12 @@ class AgendaService {
 
   async addFavouriteAgenda(req) {
     try {
+      console.log('reeeee',req.body)
       const body = req.body;
       const schema = Joi.object().keys({
         agenda_id: Joi.string().required(),
         user_id: Joi.string().required(),
-        status: Joi.number().required(),
+        status: Joi.bool().required(),
       });
       await utils.validate(body, schema);
 
@@ -139,10 +140,12 @@ class AgendaService {
         this._response = {
           status: true,
           message:
-            body.status == 1
+            body.status == true
               ? "Agenda added as favorite."
               : "Agenda removed from favorite.",
+              data:findFavourite
         };
+       
 
         return requestHelper.respondWithJsonBody(200, this._response);
       } else {
@@ -175,7 +178,7 @@ class AgendaService {
 
       let findFavourite = await this.AgendaFavouriteModel.find({
         user_id: id,
-        status: 1,
+        status: true,
       });
 
       console.log("hjddffdfd", findFavourite);

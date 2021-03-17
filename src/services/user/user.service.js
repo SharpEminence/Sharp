@@ -49,6 +49,7 @@ class UserService {
   /*Update user profile */
   async updateProfile(req) {
     try {
+      console.log('body',req.body)
       let id = req.params.id;
       let body = req.body;
 
@@ -81,5 +82,41 @@ class UserService {
       return requestHelper.respondWithJsonBody(500, this._response);
     }
   }
+  async uploadProfileImage(req){
+    try {
+      console.log('bodyfff',req.body,req.params.id)
+      let id = req.params.id;
+      let body = req.body;
+
+      let result = await this.ProfileModel.findOneAndUpdate(
+        { userdata: ObjectID(id) },
+        { $set: { profile_img: body.profile_img} },
+        { new: true }
+      ).populate("userdata");
+      console.log("res", result);
+      if (result) {
+        this._response = {
+          status: true,
+          message: "updated successfully",
+          data: result,
+        };
+        return requestHelper.respondWithJsonBody(200, this._response);
+      } else {
+        this._response = {
+          status: true,
+          message: "error while updating",
+          data: null,
+        };
+        return requestHelper.respondWithJsonBody(200, this._response);
+      }
+    } catch (err) {
+      this._response = { message: err.message };
+      if (err && err.status_code == 400) {
+        return requestHelper.respondWithJsonBody(400, this._response);
+      }
+      return requestHelper.respondWithJsonBody(500, this._response);
+    }
+  }
 }
 module.exports = UserService;
+ //blob:http://localhost:3000/9f7cf1e8-a00d-413d-818b-11f837ffd0f3

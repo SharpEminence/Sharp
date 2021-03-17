@@ -9,8 +9,8 @@ let ProfileSchema = mongoose.Schema({
       },
       profile_img: {
         type: String,
-        default: "boat.png"
       },
+      
       event:{
           type:String
       },

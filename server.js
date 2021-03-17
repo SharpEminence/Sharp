@@ -6,7 +6,7 @@ const DBM = require("./src/config/db")
 const apiRoutes = require('./src/routes')
 const csvdata = require("./CSVTOJSON/index")
 
-const port = 8000
+const port = 5000
 
 const DBManager = new DBM()
 const data = new csvdata()

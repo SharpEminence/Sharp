@@ -19,7 +19,7 @@ const data = new csvdata()
     return requestHelper.handleResponse(res, result)
     })
     //admin login
-    router.post('/admin_login', async (req, res) => {
+    router.post('/admin/login', async (req, res) => {
         const body = req.body
         const result = await authService.Adminlogin(body)
         return requestHelper.handleResponse(res, result)

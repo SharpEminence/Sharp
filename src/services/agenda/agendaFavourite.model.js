@@ -5,7 +5,7 @@ var AgendaFavouriteSchema = new Schema(
   {
     agenda_id: { type: Schema.Types.ObjectId, ref: "agendas" },
     user_id: { type: Schema.Types.ObjectId, ref: "users" },
-    status: { type: Number, default: 0 },
+    status: { type: Boolean, default: false },
   },
   { collection: "AgendaFavourite" }
 );
