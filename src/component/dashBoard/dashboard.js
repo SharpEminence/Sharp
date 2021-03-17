@@ -5,7 +5,8 @@ import BreakoutCarousel from "./carousel_Breakout";
 import Confrence_Carousel from "./carousel_Confrence";
 import Layout from "../layout";
 import MainStageCarousel from "./mainStageCarousel";
-import Test1 from "./test";
+import Test from "./test";
+import Exhibitor_Carousel from "./exibitor_Carousel";
 const DashBoard = () => {
   return (
     <div>
@@ -17,42 +18,29 @@ const DashBoard = () => {
               <div className="welcomeVideo">
                 <div className="video">
                   <video
+                    controls
                     width
                     poster={
                       process.env.PUBLIC_URL + "/assets/images/videoPoster.png"
                     }
                     className="dashboardVideoMedia"
                     id="ban_video"
-                    style={{width:"760px",marginLeft:"40px"}}
+                    style={{ width: "760px", marginLeft: "40px" }}
                   >
                     <source
                       src="https://www.w3schools.com/html/mov_bbb.mp4"
                       type="video/mp4"
                     />
-                    <source
-                      src="https://www.w3schools.com/html/mov_bbb.ogg"
-                      type="video/ogg"
-                    />
                     Your browser does not support HTML video.
                   </video>
                   <div className="videoControlBtn play-bt">
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + "/assets/images/playBtn.png"
-                      }
-                      alt=""
-                    />
+                   
                   </div>
                   <div
                     className="videoControlBtn pause-bt"
                     style={{ display: "none" }}
                   >
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + "/assets/images/pauseBtn.png"
-                      }
-                      alt=""
-                    />
+                   
                   </div>
                   <div className="mute-bt" />
                 </div>
@@ -60,52 +48,71 @@ const DashBoard = () => {
             </div>
           </div>
           {/*-------=============video section ends=============-------------*/}
+
           {/*-------=============counter section slider start=============-------------*/}
           <div className="count_sec">
             <div className="container">
-              <div className="count-row d-flex align-items-center justify-content-between">
-                <div className="count-colmn">
-                  <h2>800</h2>
-                  <p>PARTICIPANTS</p>
-                </div>
-                <div className="count-colmn">
-                  <h2>10</h2>
-                  <p>DEPARTMENTS</p>
-                </div>
-                <div className="count-colmn">
-                  <h2>6</h2>
-                  <p>COUNTRIES</p>
-                </div>
+              <div className="dashvidbtmtxt">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                nostrud exerci tation ullamcorper suscipit lobortis Lorem ipsum
+                dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+                nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+                volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+                tation ullamcorper suscipit lobortis
               </div>
             </div>
           </div>
           {/*-------=============counter section slider ends=============-------------*/}
           {/*-------=============conference slider start=============-------------*/}
-          <div className="cnfhighlight">
+          <div className="mainstagedashwrap">
             <div className="container">
               <div className="dg-slider-wrap">
-                <h2 className="slider-heading" style={{paddingRight:"90px"}}>MAIN STAGE</h2>
-                <Test1 />
-              </div>
-              <div className="dg-slider-wrap">
-                <h2 className="slider-heading" style={{paddingRight:"90px"}}>CONFERENCE HIGHLIGHTS</h2>
-               <br/>
-                <Confrence_Carousel />
+                <h2 className="slider-heading" style={{ paddingRight: "90px" }}>
+                  MAIN STAGE
+                </h2>
+                <div className="mainstagelistwrap" >
+                  
+                    <Test/>
+                    
+                  
+                  <div className="dashgostagebtn" style={{ paddingRight: "90px" }}>
+                    <Link to="/mainstage" >Go to Stage &gt;</Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
           {/*-------=============conference slider ends=============-------------*/}
           {/*-------=============breakout sessions slider start=============-------------*/}
           <div className="breskpoutsession">
             <div className="container">
               <div className="dg-slider-wrap">
-                <h2 className="slider-heading" style={{paddingRight:"90px"}}>BREAKOUT SESSIONS</h2>
-               <br/>
+                <h2 className="slider-heading" style={{ paddingRight: "90px" }}>
+                  BREAKOUT SESSIONS
+                </h2>
+                <br />
                 <BreakoutCarousel />
               </div>
             </div>
           </div>
+
           {/*-------=============breakout sessions slider ends=============-------------*/}
+          <div className="metorexhibitordash">
+            <div className="container">
+              <div className="moesliderwrap">
+                <h2 className="slider-heading" style={{ paddingRight: "80px" }}>
+                  MEET OUR EXHIBITORS
+                </h2>
+                <div className="logos-slide slider">
+                  <Exhibitor_Carousel />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/*-------=============EXPLORE EXHIBIT section start=============-------------*/}
           <div className="exploreexhibit">
             <div className="container">
@@ -113,11 +120,11 @@ const DashBoard = () => {
                 <div className="exploreexhibitimg">
                   <img
                     className="img-fluid"
+                    style={{ paddingLeft: "70px", height: "290px" }}
                     src={
                       process.env.PUBLIC_URL +
                       "/assets/images/exhibit-hall-bg.png"
                     }
-                    style={{width:"760px",marginLeft:"82px"}}
                     alt=""
                   />
                 </div>

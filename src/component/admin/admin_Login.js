@@ -96,7 +96,7 @@ const AdminLogin = () => {
                       <div className="form-group">
                         <label>PASSWORD</label>
                         <input
-                          type="text"
+                           type="password"
                           className="form-control"
                           value={adminPassword}
                           onChange={(e) => setPasword(e.target.value)}
@@ -108,6 +108,7 @@ const AdminLogin = () => {
                           className="loginBtn btn-lg btn-block"
                           data-toggle="modal"
                           data-target="#cmn-popup"
+                          style={{ height: "25px" }}
                           onClick={() => PostData()}
                         >
                           Login

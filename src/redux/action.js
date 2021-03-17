@@ -8,7 +8,7 @@ export const addUser = (user) => (dispatch, getState) => {
     },
   });
 
-  localStorage.setItem("USER", JSON.stringify(getState().users));
+  // localStorage.setItem("USER", JSON.stringify(getState().users));
 };
 
 export const deleteUser = (id) => (dispatch, getState) => {
@@ -21,7 +21,8 @@ export const deleteUser = (id) => (dispatch, getState) => {
 };
 
 export const editUser = (data) => (dispatch, getState) => {
-  let newUSER =  data.user
+  console.log('edit data',data)
+  let newUSER =  data
 
   if (newUSER) {
     dispatch({
@@ -31,7 +32,7 @@ export const editUser = (data) => (dispatch, getState) => {
         user: newUSER,
       },
     });
-    localStorage.setItem("USER", JSON.stringify(getState().users));
+    // localStorage.setItem("USER", JSON.stringify(getState().users));
   }
   //  else {
   //   alert("Got a blank value");

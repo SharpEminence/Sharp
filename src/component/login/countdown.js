@@ -5,7 +5,7 @@ const Countdown = () => {
     let year = new Date().getFullYear();
     const difference = +new Date(`${year}-10-1`) - +new Date();
     let timeLeft = {};
-
+console.log('diff',difference)
     if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),

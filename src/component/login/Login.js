@@ -4,13 +4,15 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import ReactDOM from "react-dom";
 import Countdown from "react-countdown";
-import { ToastContainer, toast } from 'react-toast'
+import { ToastContainer, toast } from "react-toast";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/action";
+
 // import M from "materialize-css";
 const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   //FORM DATA
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
@@ -23,10 +25,36 @@ const Login = () => {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
   const onOpenModal1 = () => setOpen1(true);
-  const onCloseModal1 = () => setOpen1(false);
+  const onCloseModal1 = () => {
+    setOpen1(false);
+    SetLoginCheck(true);
+  };
   const Completionist = () => <span>You are good to go!</span>;
   const [loginCheck1, SetLoginCheck] = useState(false);
+  const [error, setError] = useState("");
   console.log("logincheck", loginCheck1);
+  const validateData = (email, password) => {
+    if (
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        email
+      )
+    ) {
+      if (
+        /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password)
+      ) {
+        return true;
+      } else {
+        setError(
+          "Your password must contain at least lowercase,Upercase.number and special character"
+        );
+        return false;
+      }
+    } else {
+      setError("You have entered an invalid email address!");
+      return false;
+    }
+  };
+
   const PostData = () => {
     //console.log("heloo Login");
     fetch("/api/v1/auth/login", {
@@ -45,10 +73,10 @@ const Login = () => {
 
         if (data.data.token) {
           localStorage.setItem("jwt", data.data.token);
-          localStorage.setItem("user", JSON.stringify(data.data.user));
+          localStorage.setItem("user_id", data.data.user._id);
           dispatch(addUser(data.data.user));
           //dispatch({type:"USER",payload:data.user})
-          toast.error("err")
+          toast.error("err");
           // M.toast({
           //   html: "LOGIN SUCCESSFULL !",
           //   classes: "#43a047 green darken-1",
@@ -56,7 +84,7 @@ const Login = () => {
           history.push("/dashBoard");
         } else {
           history.push("/Login");
-          toast.error("jhgajds")
+          toast.error("jhgajds");
 
           // M.toast({ html: "LOGIN FAILED !", classes: "#c62828 red darken-3" });
         }
@@ -70,6 +98,7 @@ const Login = () => {
   };
   // Renderer callback with condition
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    console.log("days", hours);
     if (completed) {
       // Render a completed state
       return <Completionist />;
@@ -160,7 +189,7 @@ const Login = () => {
                       {/* ---------------------------------INSERT COUNTDOWN TIME------------------- */}
 
                       <Countdown
-                        date={Date.now() + 500000000}
+                        date={Date.now() + 3225600000}
                         renderer={renderer}
                       />
                     </div>
@@ -173,17 +202,17 @@ const Login = () => {
                       <div className="form-group">
                         <label>E-MAIL ADDRESS</label>
                         <input
-                          type="email"
+                          type="text"
+                          name="email"
                           className="form-control"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          
                         />
                       </div>
                       <div className="form-group">
                         <label>PASSWORD</label>
                         <input
-                          type="text"
+                          type="password"
                           className="form-control"
                           value={password}
                           onChange={(e) => setPasword(e.target.value)}
@@ -195,7 +224,7 @@ const Login = () => {
                             className="form-check-input"
                             type="checkbox"
                             onClick={loginCheck}
-                            defaultValue
+                            checked={loginCheck1}
                             id="flexCheckDefault"
                           />
                           <label
@@ -210,16 +239,23 @@ const Login = () => {
                             >
                             PRIVACY POLICY
                             </link> */}
-                            <span onClick={onOpenModal1}> PRIVACY POLICY</span>
+                            <a>
+                              <span>
+                                <Link onClick={onOpenModal1}>
+                                  PRIVACY POLICY
+                                </Link>{" "}
+                              </span>
+                            </a>
                           </label>
                         </div>
 
-                        {loginCheck1 ? (
+                        {loginCheck1 && email && password ? (
                           <button
                             type="button"
                             className="loginBtn"
                             data-toggle="modal"
                             data-target="#cmn-popup"
+                            value="Submit"
                             // onClick={onOpenModal}
                             onClick={() => PostData()}
                           >
@@ -228,7 +264,8 @@ const Login = () => {
                         ) : (
                           <button
                             type="button"
-                            className="loginBtndis"
+                            className="loginBtn"
+                            style={{background:'#13508457'}}
                             data-toggle="modal"
                             data-target="#cmn-popup"
                             disabled={true}
@@ -294,7 +331,10 @@ const Login = () => {
       {/*---------commonpopup ends---------*/}
       <Modal open={open1} onClose={onCloseModal1} center>
         {/* <div classNames="privacy_plcy"> */}
-        <div className="privacy_plcy modal-dialog modal-lg modal-dialog-centered">
+        <div
+          className="privacy_plcy modal-dialog modal-lg modal-dialog-centered"
+          style={{ width: "610px" }}
+        >
           {/* Modal content*/}
           <div className="modal-content">
             <div className="modal-header">
@@ -965,19 +1005,20 @@ const Login = () => {
             </div>
 
             <div className="modal-footer">
-              <button type="button" onClick={onCloseModal1}>
-                I Agree
-              </button>
+              {!loginCheck1 ? (
+                <button type="button" onClick={onCloseModal1}>
+                  I Agree
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
         {/* </div> */}
       </Modal>
-   
+
       <ToastContainer />
     </div>
- 
- );
+  );
 };
 
 export default Login;

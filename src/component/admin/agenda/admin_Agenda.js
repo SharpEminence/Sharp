@@ -28,13 +28,13 @@ const AdminAgenda = (props) => {
   };
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      console.log('image',event.target.files[0],)
-      setImage(URL.createObjectURL(event.target.files[0]))
+      console.log("image", event.target.files[0]);
+      setImage(URL.createObjectURL(event.target.files[0]));
       // this.setState({
       //   image: URL.createObjectURL(event.target.files[0])
       // });
     }
-   }
+  };
   return (
     <div>
       <AdminLayout>
@@ -46,7 +46,7 @@ const AdminAgenda = (props) => {
               className="col-md-4"
               style={{ marginBottom: "300px", marginTop: "100PX" }}
             >
-              <h1 className="text-center" style={{ color: "yellow" }}>
+              <h1 className="text-center" style={{ color: "#10daef" }}>
                 {" "}
                 ADD AGENDA
               </h1>
@@ -55,7 +55,7 @@ const AdminAgenda = (props) => {
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">Days</label>
                   <input
-                    type="text"
+                    type="date"
                     className="form-control"
                     id="exampleInputPassword1"
                     placeholder="Days"
@@ -97,7 +97,7 @@ const AdminAgenda = (props) => {
                   />
                 </div>
                 {/* <img id="target" src={profile_img}/> */}
-                    <div className="form-group">
+                <div className="form-group">
                   <input
                     id="imageUpload"
                     type="file"
@@ -112,9 +112,10 @@ const AdminAgenda = (props) => {
                 <button
                   type="submit"
                   className="btn btn-warning btn-block "
+                  style={{ background: "#10daef" }}
                   onClick={() => PostData()}
                 >
-                  Add Aggenda
+                  Add Agenda
                 </button>
               </form>
             </div>

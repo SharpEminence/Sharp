@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import React from 'react'
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
 import Login from "./component/login/Login";
@@ -23,23 +24,35 @@ import Test from "./component/dashBoard/test";
 import BreakOutSessionCarousel from "./component/breakOutSession/breakoutSession_Carousel";
 import AdminAgenda from "./component/admin/agenda/admin_Agenda";
 import Admin_Layout from "./component/admin/admin_Layout";
-import Admin_Login from './component/admin/admin_Login'
-import Admin_Dashboard  from './component/admin/dashBoard.js/dashboard_Admin'
-import Admin_Agenda_Show from './component/admin/agenda/showAgenda'
-import Admin_Agenda_Edit from './component/admin/agenda/editAgenda'
-const Routing = () => {
+import Admin_Login from "./component/admin/admin_Login";
+import Admin_Dashboard from "./component/admin/dashBoard.js/dashboard_Admin";
+import Admin_Agenda_Show from "./component/admin/agenda/showAgenda";
+import Admin_Agenda_Edit from "./component/admin/agenda/editAgenda";
+import ProtectedRoute from "./routes/ProtectedRoute";
+
+const Routing = (props) => {
+  const { user } = props;
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  const login = () => {
+    setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+  };
   return (
     <Switch>
-       <Route exact path="/admin/agenda_Edit/:id">
+      <Route exact path="/admin/agenda_Edit/:id">
         <Admin_Agenda_Edit />
       </Route>
-       <Route exact path="/admin/agenda_show">
+      <Route exact path="/admin/agenda_show">
         <Admin_Agenda_Show />
       </Route>
       <Route exact path="/admin/dashBoard">
         <Admin_Dashboard />
       </Route>
-       <Route exact path="/admin/Login">
+      <Route exact path="/admin/login">
         <Admin_Login />
       </Route>
       <Route exact path="/admin/Layout">
@@ -84,11 +97,18 @@ const Routing = () => {
       <Route exact path="/mainstage">
         <Mainstage />
       </Route>
-      <Route exact path="/Login">
-        <Login />
-      </Route>
+      {isAuthenticated ? (
+        <Route exact path="/dashBoard">
+          <Dashboard />
+        </Route>
+      ) : (
+        <Route exact path="/">
+          <Login />
+        </Route>
+      )}
+
       <Route exact path="/">
-        <Countdown />
+        <Login />
       </Route>
       <Route exact path="/layout">
         <Layout />
@@ -108,6 +128,12 @@ const Routing = () => {
       <Route exact path="/profile">
         <Profile />
       </Route>
+      <ProtectedRoute
+        isAuthenticated={isAuthenticated}
+        path="/"
+        logout={logout}
+        component={Dashboard}
+      />
       {/* <Route exact path="/admin_Agenda">
         <Admin_Agenda />
       </Route> */}

@@ -4,18 +4,14 @@ import { Link } from "react-router-dom";
 const AdminLayout = (props) => {
   const [open, setOpen] = useState(false);
 
-
   const onSlide = () => {
     setOpen((open) => !open);
   };
 
   return (
-    
     <div>
-      
       <header>
-      
-        <nav className="navbar navbar-expand-lg fixed-top">
+        <nav className="navbar navbar-expand-lg fixed-top" style={{background:'#10daef'}}>
           <div className="header_inner d-flex align-items-center justify-content-between">
             <div className="header-left">
               <img
@@ -60,7 +56,7 @@ const AdminLayout = (props) => {
       </header>
 
       <section classname="main-sec">
-        <div className="page-wrap d-flex">
+        <div className="d-flex">
           <div className={open ? "left-sidebar menuhideshow" : "left-sidebar"}>
             <div className="side-menu">
               <ul>
@@ -344,7 +340,7 @@ const AdminLayout = (props) => {
         </div>
       </section>
 
-      <Footer></Footer>
+     
     </div>
   );
 };

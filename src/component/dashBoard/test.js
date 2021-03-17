@@ -52,7 +52,7 @@ const Test = () => {
                               process.env.PUBLIC_URL +
                               "/assets/images/mainstagelistimg.png"
                             }
-                            style={{height:"201px"}}
+                            style={{height:"250px",width:"500px"}}
                           />
                         </div>
                       </div>
@@ -96,7 +96,7 @@ const Test = () => {
                               process.env.PUBLIC_URL +
                               "/assets/images/mainstagelistimg.png"
                             }
-                            style={{height:"201px"}}
+                            style={{height:"250px"}}
                           />
                         </div>
                       </div>
@@ -139,7 +139,7 @@ const Test = () => {
                               process.env.PUBLIC_URL +
                               "/assets/images/mainstagelistimg.png"
                             }
-                            style={{height:"201px"}}
+                            style={{height:"250px"}}
                           />
                         </div>
                       </div>
@@ -182,7 +182,7 @@ const Test = () => {
                               process.env.PUBLIC_URL +
                               "/assets/images/mainstagelistimg.png"
                             }
-                            style={{height:"201px"}}
+                            style={{height:"250px"}}
                           />
                         </div>
                       </div>

@@ -14,7 +14,7 @@ const ShowAgenda = (props) => {
   const [description, setdescription] = useState("");
   const [page, setPage] = useState("");
   const [agendaId, setAgendaId] = useState("");
-  const [profile_img,setImage] = useState()
+  const [profile_img, setProfileImage] = useState("");
   console.log("dttd===<", day, time, title, description, agendaId, open);
   // -----------------------------Fetching Agenda From Server------------------
   const getAgendaData = () => {
@@ -60,24 +60,22 @@ const ShowAgenda = (props) => {
         setAgenda(newData);
       });
   };
-  
- 
+
   //   -----------------------------UPDATE AGENDA----------------------------------
   const updateAgenda = (data) => {
-  
     console.log("UpdateID========>", data.profile_img);
     setDay(data.day);
     setTime(data.time);
     setTitle(data.title);
     setdescription(data.description);
     setAgendaId(data._id);
-    setImage(data.profile_img)
-   
-      // setImage(URL.createObjectURL(data.profile_img))
-      // this.setState({
-      //   image: URL.createObjectURL(event.target.files[0])
-      // });
-    
+    setProfileImage(data.profile_img);
+
+    // setImage(URL.createObjectURL(data.profile_img))
+    // this.setState({
+    //   image: URL.createObjectURL(event.target.files[0])
+    // });
+
     setOpen((open) => !open);
   };
 
@@ -94,7 +92,7 @@ const ShowAgenda = (props) => {
         time,
         title,
         description,
-        profile_img
+        profile_img,
       }),
     })
       .then((res) => res.json())
@@ -125,106 +123,129 @@ const ShowAgenda = (props) => {
 
   const [showPerPage, setShowPerPage] = useState(2);
 
-  const [pagination, setPagination] = useState({
-    start: 0,
-    end: showPerPage,
-  });
-
-  const onPaginationChange = (start, end) => {
-    console.log("hell", start, end);
-
-    setPagination({ start: start, end: end });
-  };
-  const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      console.log('image', event.target.files[0],)
-      setImage(URL.createObjectURL(event.target.files[0]))
-      // this.setState({
-      //   image: URL.createObjectURL(event.target.files[0])
-      // });
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    if (image) {
+      const data = new FormData();
+      data.append("file", image);
+      data.append("upload_preset", "insta-clone");
+      data.append("cloud_name", "qw121321qweqw");
+      fetch("https://api.cloudinary.com/v1_1/qw121321qweqw/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("inner", data);
+          setProfileImage(data.url);
+          // setImage
+          // fetch(`/api/v1/user/updatepic/${userdata.user._id}`, {
+          //   method: "post",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+          //   },
+          //   body: JSON.stringify({
+          //     profile_img: data.url,
+          //   }),
+          // })
+          //   .then((res) => res.json())
+          //   .then((result) => {
+          //     console.log("res", result);
+          //     setProfileImage(result.data.profile_img);
+          //   });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-   }
-   console.log('image', profile_img)
+  }, [image]);
+
+  const updatePhoto = (file) => {
+    setImage(file);
+  };
   return (
     <div>
       <AdminLayout>
         <div style={{ padding: "150px", width: "1200px" }}>
-          
-          <div>
-           
-          </div>
+          <div></div>
           {open ? null : (
             <>
-            <div class="form-group has-search">
-            <span class="fa fa-search form-control-feedback"></span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search here"
-              onChange={(e) => searchData(e.target.value)}
-            />
-          </div>
-          <button
-              className="btn btn-sm btn-warning "
-              style={{ float: "right" }}
-            >
-              <Link to="/admin/agenda_create" style={{ color: "white" }}>
-                <b>Add Agenda</b>
-              </Link>
-            </button>
-            <table
-              class="table "
-              style={{ marginTop: "80px", marginBottom: "200px" }}
-            >
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">Day</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {agenda
-                  ? agenda.map((value) => {
-                      return (
-                        <tr>
-                          <th>{value.day}</th>
-                          <td>{value.time}</td>
-                          <td>{value.title}</td>
-                          <td>{value.description}</td>
-                          <td>
-                            <button
-                              className="btn btn-sm btn-danger"
-                              onClick={() => deleteAgenda(value._id)}
-                            >
-                              Delete
-                            </button>
-                            <br />
-                            <br />
-
-                            <div>
-                              {/* Button trigger modal */}
+              <div class="form-group has-search">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search here"
+                  onChange={(e) => searchData(e.target.value)}
+                />
+              </div>
+              <button
+                className="btn btn-sm btn-warning "
+                style={{ float: "right", background: "#10daef" }}
+              >
+                <Link to="/admin/agenda_create" style={{ color: "white" }}>
+                  <b>Add Agenda</b>
+                </Link>
+              </button>
+              <table
+                class="table table-bordered"
+                style={{
+                  marginTop: "80px",
+                  fontFamily: "arial",
+                  marginBottom: "200px",
+                  borderCollapse: "collapse",
+                }}
+              >
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Day</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {agenda
+                    ? agenda.map((value) => {
+                        return (
+                          <tr>
+                            <td>{value.day}</td>
+                            <td>{value.time}</td>
+                            <td>{value.title}</td>
+                            <td>{value.description}</td>
+                            <td>
                               <button
-                                //type="button"
-                                onClick={() => updateAgenda(value)}
                                 className="btn btn-sm btn-danger"
-                                //   data-toggle="modal"
-                                //   data-target="#exampleModal"
+                                onClick={() => deleteAgenda(value._id)}
                               >
-                                Edit
+                                <i style={{ fontSize: "24px" }} className="fa">
+                                  &#xf014;
+                                </i>
                               </button>
-                              {/* Modal */}
-                            </div>
-                          </td>
-                        </tr>
-                      
-                      );
-                    })
-                  : null}
-              </tbody>
-            </table>
+                              <br />
+                              <br />
+
+                              <div>
+                                <button
+                                  onClick={() => updateAgenda(value)}
+                                  className="btn btn-sm btn-primary "
+                                >
+                                  <i
+                                    style={{ fontSize: "24px" }}
+                                    className="material-icons"
+                                  >
+                                    &#xe254;
+                                  </i>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    : null}
+                </tbody>
+              </table>
             </>
           )}
           {/* <Pagination
@@ -260,18 +281,26 @@ const ShowAgenda = (props) => {
                         onChange={(e) => setTime(e.target.value)}
                       />
                     </div>
-                    <img id="target" src={profile_img} style={{width:'200px'}}/>
+                    <img
+                      id="target"
+                      src={profile_img}
+                      style={{ width: "200px" }}
+                    />
                     <div className="form-group">
-                  <input
-                    id="imageUpload"
-                    type="file"
-                    name="profile_photo"
-                    placeholder="Photo"
-                    onChange={onImageChange}
-                    required=""
-                    capture
-                  />
-                </div>
+                      <div className="upload-btn-wrapper">
+                    
+                        {/* <input
+                            type="file"
+                            name="myfile"
+                            onChange={handleChange}
+                          /> */}
+                        <input
+                          type="file"
+                          name="myfile"
+                          onChange={(e) => updatePhoto(e.target.files[0])}
+                        />
+                      </div>
+                    </div>
                     {/* <img id="target" src={this.state.image}/> */}
                     <div className="form-group">
                       <label htmlFor="exampleInputPassword1">Title</label>
@@ -296,8 +325,8 @@ const ShowAgenda = (props) => {
                       />
                     </div>
                     <button
-                      className="btn btn-block btn-warning"
-                      style={{ color: "white" }}
+                      className="btn btn-warning d-flex justify-content-center"
+                      style={{ color: "white", background: "#10daef",textAlign:'center' }}
                       onClick={Update_Agenda_Data}
                     >
                       Edit Agenda

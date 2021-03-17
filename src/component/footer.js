@@ -45,6 +45,7 @@ const Footer = () => {
             </div>
             <div className="col-4">
               <div className="footer-logo">
+              <a href="https://www.illumeet.com/">
                 <img
                   className="img-fluid"
                   src={
@@ -52,6 +53,7 @@ const Footer = () => {
                   }
                   alt=""
                 />
+                </a>
               </div>
             </div>
             <div className="col-4">

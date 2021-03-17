@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Footer from "./footer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const Layout = (props) => {
   const [open, setOpen] = useState(false);
-
-
+  const history = useHistory();
   const onSlide = () => {
     setOpen((open) => !open);
   };
@@ -26,12 +25,14 @@ const Layout = (props) => {
 
             <div className="header-right d-flex align-items-center justify-content-end">
               <Link to="/dashBoard">
-              <div className="header-logo">
-                <img
-                  src={process.env.PUBLIC_URL + "/assets/images/logo-main.png"}
-                  className="img-fluid"
-                />
-              </div>
+                <div className="header-logo">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/assets/images/logo-main.png"
+                    }
+                    className="img-fluid"
+                  />
+                </div>
               </Link>
               <div className="profile-icon">
                 <div className="dropdown show">
@@ -332,7 +333,15 @@ const Layout = (props) => {
                       />
                     </div>
                     <div className="side-menutext">
-                      <span>Logout</span>
+                      <span
+                        onClick={() => {
+                          localStorage.clear();
+
+                          history.push("/login");
+                        }}
+                      >
+                        Logout
+                      </span>
                     </div>
                   </Link>
                 </li>
