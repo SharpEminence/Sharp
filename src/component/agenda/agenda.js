@@ -63,8 +63,8 @@ const Agenda = (props) => {
   },[])
   const getAgendaId = () =>{
     let id = localStorage.getItem("user")
-    co
-    fetch(`{/api/v1/agenda/getAgendaById/${id._id}}`, {
+    
+    fetch(`/api/v1/agenda/getAgendaById/${id._id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
