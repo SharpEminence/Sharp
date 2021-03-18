@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import React from 'react'
+import React from "react";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
 import Login from "./component/login/Login";
@@ -23,14 +23,24 @@ import Health_Assessments from "./component/health_Assessments/health_Assessment
 import Test from "./component/dashBoard/test";
 import BreakOutSessionCarousel from "./component/breakOutSession/breakoutSession_Carousel";
 import AdminAgenda from "./component/admin/agenda/admin_Agenda";
+import CreateBreakout from "./component/admin/breakoutSession/create_breakout";
 import Admin_Layout from "./component/admin/admin_Layout";
 import Admin_Login from "./component/admin/admin_Login";
 import Admin_Dashboard from "./component/admin/dashBoard.js/dashboard_Admin";
 import Admin_Agenda_Show from "./component/admin/agenda/showAgenda";
-import Admin_Agenda_Edit from "./component/admin/agenda/editAgenda";
+import Admin_Breakout_Show from "./component/admin/breakoutSession/admin_breakout";
+import Admin_Exhibit_Show from "./component/admin/exhibit/showExhibit"
 import ProtectedRoute from "./routes/ProtectedRoute";
+import CreateExhibitor from "./component/admin/exhibit/create_exhibitor";
 
 const Routing = (props) => {
+  const history = useHistory();
+  React.useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      history.push("/");
+    }
+  }, []);
   const { user } = props;
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
@@ -43,11 +53,14 @@ const Routing = (props) => {
   };
   return (
     <Switch>
-      <Route exact path="/admin/agenda_Edit/:id">
-        <Admin_Agenda_Edit />
-      </Route>
       <Route exact path="/admin/agenda_show">
         <Admin_Agenda_Show />
+      </Route>
+      <Route exact path="/admin/breakout_show">
+        <Admin_Breakout_Show />
+      </Route>
+      <Route exact path="/admin/exhibit_show">
+        <Admin_Exhibit_Show />
       </Route>
       <Route exact path="/admin/dashBoard">
         <Admin_Dashboard />
@@ -60,6 +73,12 @@ const Routing = (props) => {
       </Route>
       <Route exact path="/admin/agenda_create">
         <AdminAgenda />
+      </Route>
+      <Route exact path="/admin/breakout_create">
+        <CreateBreakout />
+      </Route>
+      <Route exact path="/admin/exhibit_create">
+        <CreateExhibitor />
       </Route>
       <Route exact path="/breakoutsessionCarousel">
         <BreakOutSessionCarousel />
@@ -97,19 +116,7 @@ const Routing = (props) => {
       <Route exact path="/mainstage">
         <Mainstage />
       </Route>
-      {isAuthenticated ? (
-        <Route exact path="/dashBoard">
-          <Dashboard />
-        </Route>
-      ) : (
-        <Route exact path="/">
-          <Login />
-        </Route>
-      )}
 
-      <Route exact path="/">
-        <Login />
-      </Route>
       <Route exact path="/layout">
         <Layout />
       </Route>

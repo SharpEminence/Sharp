@@ -57,6 +57,27 @@ const Agenda = (props) => {
   console.log("dhdhdh", click);
   //GETTING ALL AGENDA
   const [loader, setLoader] = useState(true);
+  const [favIdData,setfavData] = useState([])
+  useEffect(()=>{
+    getAgendaId()
+  },[])
+  const getAgendaId = () =>{
+    let id = localStorage.getItem("user")
+    co
+    fetch(`{/api/v1/agenda/getAgendaById/${id._id}}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        let dt = data.data.map((d)=>{
+          return d.agenda_id
+        })
+        console.log('dt',dt)
+      });
+  }
   const getAgendaData = () => {
     fetch("/api/v1/agenda/getAllAgenda", {
       headers: {

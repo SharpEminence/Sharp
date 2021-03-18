@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreakoutCarousel from "../dashBoard/carousel_Breakout";
 import { Link } from "react-router-dom";
 import Layout from "../layout";
 import BreakOutSession_Carousel from "./breakoutSession_Carousel";
 const BreakoutSession = (props) => {
+const [data,setData] = useState([])
+  const getAllData = () => {
+    fetch("/api/v1/breakout/getAll", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('data',data.data)
+        setData(data.data);
+       
+      });
+  };
+  useEffect(()=>{
+getAllData()
+  },[])
   return (
     <div>
       <Layout>

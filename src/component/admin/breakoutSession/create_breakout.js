@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../admin_Layout";
 import { Link, useHistory } from "react-router-dom";
-const AdminAgenda = (props) => {
+const CreateBreakout = (props) => {
   const history = useHistory();
-  const [day, setDay] = useState("");
   const [time, setTime] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [profile_img, setProfileImage] = useState("");
   const [image, setImage] = useState("");
-  const [events, setEvents] = useState("");
-  const [url, setUrl] = useState("");
 
   const PostData = () => {
-    fetch("/api/v1/agenda/createAgenda", {
+    fetch("/api/v1/breakout/createBreakout", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        day,
         time,
         title,
         description,
         profile_img,
-        events,
-        url,
       }),
     });
-    history.push("/admin/agenda_show");
+    history.push("/admin/breakout_show");
   };
 
   useEffect(() => {
@@ -69,21 +63,10 @@ const AdminAgenda = (props) => {
             >
               <h1 className="text-center" style={{ color: "#10daef" }}>
                 {" "}
-                ADD AGENDA
+                ADD SESSION
               </h1>
               <br></br>
               <form>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Days</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Days"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                  />
-                </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">Time</label>
                   <input
@@ -117,28 +100,6 @@ const AdminAgenda = (props) => {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Event</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Title"
-                    value={events}
-                    onChange={(e) => setEvents(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">URL</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Title"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                  />
-                </div>
                 {/* <img id="target" src={profile_img}/> */}
                 <div className="form-group">
                   <div className="upload-btn-wrapper">
@@ -156,7 +117,7 @@ const AdminAgenda = (props) => {
                   style={{ background: "#10daef" }}
                   onClick={() => PostData()}
                 >
-                  Add Agenda
+                  Add Session
                 </button>
               </form>
             </div>
@@ -167,4 +128,4 @@ const AdminAgenda = (props) => {
     </div>
   );
 };
-export default AdminAgenda;
+export default CreateBreakout;

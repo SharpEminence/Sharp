@@ -2,48 +2,49 @@ import React, { useState, useEffect } from "react";
 import AdminLayout from "../admin_Layout";
 import { Link, useHistory } from "react-router-dom";
 import Pagination from "../pagination/pagination";
-const ShowAgenda = (props) => {
+const ShowExhibit = (props) => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
 
   // -------------------------Collecting All Agenda------------------------
 
-  const [agenda, setAgenda] = useState([]);
-  const [day, setDay] = useState("");
-  const [time, setTime] = useState("");
+  const [exhibit_data, setExhibitData] = useState([]);
+  const [logo, setLogo] = useState("");
+  const [flipbook, setFlipBook] = useState([]);
   const [title, setTitle] = useState("");
-  const [description, setdescription] = useState("");
-  const [page, setPage] = useState("");
-  const [agendaId, setAgendaId] = useState("");
-  const [profile_img, setProfileImage] = useState("");
-  console.log("dttd===<", day, time, title, description, agendaId, open);
+  const [content, setContent] = useState("");
+  const [url, setUrl] = useState([]);
+  const [video, setVideo] = useState([]);
+  const [exhibitId, setExhibitId] = useState("");
+  const [image, setImage] = useState("");
+
   // -----------------------------Fetching Agenda From Server------------------
-  const getAgendaData = () => {
-    fetch("/api/v1/agenda/getAllAgenda", {
+  const getExhibitData = () => {
+    fetch("/api/v1/exhibit/getAll", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        setPage(data.total);
         console.log("data", data.total);
-        setAgenda(data.data);
+        setExhibitData(data.data);
       });
   };
 
   useEffect(() => {
     setTimeout(() => {
-      getAgendaData();
-    }, [agenda]);
+      getExhibitData();
+    }, [exhibit_data]);
   }, 2000);
 
-  console.log("ADMIN_AGENDA_INFO=====>", agenda);
+  console.log("ADMIN_breakout_INFO=====>", exhibit_data);
 
   //   ---------------------------------DELETE AGENDA------------------------------------
 
-  const deleteAgenda = (postid) => {
+  const deleteExhibit = (postid) => {
     console.log("DeleteID", postid);
-    fetch(`/api/v1/agenda/deleteAgenda/${postid}`, {
+    fetch(`/api/v1/exhibit/deleteExhibit/${postid}`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -53,79 +54,68 @@ const ShowAgenda = (props) => {
       .then((result) => {
         alert("DELETED SUCCESFULLY");
         console.log("DELETE RESULT===>", result);
-        getAgendaData();
-        const newData = agenda.filter((item) => {
+        getExhibitData();
+        const newData = exhibit_data.filter((item) => {
           return item._id !== result._id;
         });
-        setAgenda(newData);
+        getExhibitData(newData);
       });
   };
 
   //   -----------------------------UPDATE AGENDA----------------------------------
-  const updateAgenda = (data) => {
-    console.log("UpdateID========>", data.profile_img);
-    setDay(data.day);
-    setTime(data.time);
-    setTitle(data.title);
-    setdescription(data.description);
-    setAgendaId(data._id);
-    setProfileImage(data.profile_img);
+  const updateExhibit = (data) => {
+    console.log("UpdateID========>", data);
+    // setDay(data.day);
     setUrl(data.url);
-    setEvents(data.events);
-
+    setVideo(data.video);
+    setContent(data.content);
+    setTitle(data.title);
+    setFlipBook(data.flipbook);
+    setLogo(data.logo);
+    setExhibitId(data._id);
     setOpen((open) => !open);
   };
-  const history = useHistory();
-  const [events, setEvents] = useState("");
-  const [url, setUrl] = useState("");
-  const Update_Agenda_Data = (e) => {
-    console.log("UPDATE RESULT===>", agendaId);
-    fetch(`/api/v1/agenda/updateAgenda/${agendaId}`, {
+
+  const Update_Exhibit_Data = (e) => {
+    console.log("UPDATE RESULT===>", exhibitId);
+    fetch(`/api/v1/exhibit/updateExhibit/${exhibitId}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        day,
-        time,
-        title,
-        description,
-        profile_img,
-        events,
+        video,
         url,
+        flipbook,
+        title,
+        content,
+        logo,
       }),
     })
       .then((res) => res.json())
       .then((result) => {
         console.log("ahsgdjkas", result);
         setTimeout(() => {
-          getAgendaData();
+          getExhibitData();
         }, 2000);
-        history.push("/admin/agenda_show");
+        history.push("/admin/exhibit_show");
       });
   };
 
-  var showEditForm = () => {
-    return <h1>yes done</h1>;
-  };
   const searchData = (e) => {
     console.log("ee", e);
-    fetch(`/api/v1/agenda/search/?q=${e}`, {
+    fetch(`/api/v1/exhibit/search/?q=${e}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data.data);
-        setAgenda(data.data);
+        setExhibitData(data.data);
       });
   };
 
-  const [showPerPage, setShowPerPage] = useState(2);
-
-  const [image, setImage] = useState("");
   useEffect(() => {
     if (image) {
       const data = new FormData();
@@ -139,23 +129,7 @@ const ShowAgenda = (props) => {
         .then((res) => res.json())
         .then((data) => {
           console.log("inner", data);
-          setProfileImage(data.url);
-          // setImage
-          // fetch(`/api/v1/user/updatepic/${userdata.user._id}`, {
-          //   method: "post",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-          //   },
-          //   body: JSON.stringify({
-          //     profile_img: data.url,
-          //   }),
-          // })
-          //   .then((res) => res.json())
-          //   .then((result) => {
-          //     console.log("res", result);
-          //     setProfileImage(result.data.profile_img);
-          //   });
+          setLogo(data.url);
         })
         .catch((err) => {
           console.log(err);
@@ -166,7 +140,12 @@ const ShowAgenda = (props) => {
   const updatePhoto = (file) => {
     setImage(file);
   };
-  const BackPage = () =>{
+  const updateVideo = (file) =>{
+      console.log('file',file)
+  }
+  
+ 
+const BackPage = () =>{
     setOpen(false)
 }
   return (
@@ -188,8 +167,8 @@ const ShowAgenda = (props) => {
                 className="btn btn-sm btn-warning "
                 style={{ float: "right", background: "#10daef" }}
               >
-                <Link to="/admin/agenda_create" style={{ color: "white" }}>
-                  <b>Add Agenda</b>
+                <Link to="/admin/exhibit_create" style={{ color: "white" }}>
+                  <b>Add Exhibitiors</b>
                 </Link>
               </button>
               <table
@@ -203,26 +182,23 @@ const ShowAgenda = (props) => {
               >
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Day</th>
-                    <th scope="col">Time</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Content</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {agenda
-                    ? agenda.map((value) => {
+                  {exhibit_data
+                    ? exhibit_data.map((value) => {
                         return (
                           <tr>
-                            <td>{value.day}</td>
-                            <td>{value.time}</td>
                             <td>{value.title}</td>
-                            <td>{value.description}</td>
+                            <td>{value.content}</td>
+
                             <td>
                               <button
                                 className="btn btn-sm btn-danger"
-                                onClick={() => deleteAgenda(value._id)}
+                                onClick={() => deleteExhibit(value._id)}
                               >
                                 <i style={{ fontSize: "24px" }} className="fa">
                                   &#xf014;
@@ -233,7 +209,7 @@ const ShowAgenda = (props) => {
 
                               <div>
                                 <button
-                                  onClick={() => updateAgenda(value)}
+                                  onClick={() => updateExhibit(value)}
                                   className="btn btn-sm btn-primary "
                                 >
                                   <i
@@ -265,48 +241,6 @@ const ShowAgenda = (props) => {
                 <div style={{ marginTop: "50px" }}>
                   <form>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Days</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Days"
-                        value={day}
-                        onChange={(e) => setDay(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Time</label>
-                      <input
-                        type="time"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                      />
-                    </div>
-                    <img
-                      id="target"
-                      src={profile_img}
-                      style={{ width: "200px" }}
-                    />
-                    <div className="form-group">
-                      <div className="upload-btn-wrapper">
-                        {/* <input
-                            type="file"
-                            name="myfile"
-                            onChange={handleChange}
-                          /> */}
-                        <input
-                          type="file"
-                          name="myfile"
-                          onChange={(e) => updatePhoto(e.target.files[0])}
-                        />
-                      </div>
-                    </div>
-                    {/* <img id="target" src={this.state.image}/> */}
-                    <div className="form-group">
                       <label htmlFor="exampleInputPassword1">Title</label>
                       <input
                         type="text"
@@ -317,38 +251,56 @@ const ShowAgenda = (props) => {
                         onChange={(e) => setTitle(e.target.value)}
                       />
                     </div>
+
+                    {/* <img id="target" src={this.state.image}/> */}
+
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Description</label>
+                      <label htmlFor="exampleInputPassword1">Content</label>
                       <textarea
                         type="text"
                         className="form-control"
                         id="exampleInputPassword1"
                         placeholder="Description"
-                        value={description}
-                        onChange={(e) => setdescription(e.target.value)}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
                       />
                     </div>
+                    <img
+                      id="target"
+                      src={logo}
+                      style={{ width: "200px" }}
+                    />
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Event</label>
+                      <label htmlFor="exampleInputPassword1">Logo</label>
+                      <div className="upload-btn-wrapper">
+                        <input
+                          type="file"
+                          name="myfile"
+                          onChange={(e) => updatePhoto(e.target.files[0])}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="exampleInputPassword1">SITE URL</label>
                       <input
                         type="text"
                         className="form-control"
                         id="exampleInputPassword1"
-                        placeholder="Title"
-                        value={events}
-                        onChange={(e) => setEvents(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">URL</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Title"
+                        placeholder="Description"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
                       />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="exampleInputPassword1">Videos</label>
+                      <div className="upload-btn-wrapper">
+                        <input
+                          type="file"
+                          name="myfile"
+                          multiple
+                          onChange={(e) => updateVideo(e.target.files[0])}
+                        />
+                      </div>
                     </div>
                     <button
                       className="btn btn-warning d-flex justify-content-center"
@@ -368,9 +320,9 @@ const ShowAgenda = (props) => {
                         background: "#10daef",
                         textAlign: "center",
                       }}
-                      onClick={Update_Agenda_Data}
+                      onClick={Update_Exhibit_Data}
                     >
-                      Edit Agenda
+                      Edit Exhibitor
                     </button>
                   </form>
                 </div>
@@ -382,4 +334,4 @@ const ShowAgenda = (props) => {
     </div>
   );
 };
-export default ShowAgenda;
+export default ShowExhibit;

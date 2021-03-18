@@ -14,9 +14,41 @@ const Mainstage = () => {
           {/*----==================page main heading ends==================----*/}
           {/*----==================mainstage image section start==================----*/}
           <div className="mainstageimage">
-            <img className="img-fluid"   src={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/mainstage-main-image.png"} />
+          <div className="dashboard_video sideSpacing_allPage">
+            <div>
+              <div className="welcomeVideo"  >
+                <div className="video">
+                  <video
+                    controls
+                    width
+                    poster={
+                      process.env.PUBLIC_URL + "/assets/images/videoPoster.png"
+                    }
+                    className="dashboardVideoMedia"
+                    id="ban_video"
+                    style={{ width: "1600px",paddingRight:"800px" }}
+                  >
+                    <source
+                      src="https://www.w3schools.com/html/mov_bbb.mp4"
+                      type="video/mp4"
+                    />
+                    Your browser does not support HTML video.
+                  </video>
+                  <div className="videoControlBtn play-bt">
+                   
+                  </div>
+                  <div
+                    className="videoControlBtn pause-bt"
+                    style={{ display: "none" }}
+                  >
+                   
+                  </div>
+                  <div className="mute-bt" />
+                </div>
+              </div>
+            </div>
+          </div>
+ 
           </div>
           {/*----==================mainstage image section ends==================----*/}
           {/*----==================mainstage listing section start==================----*/}

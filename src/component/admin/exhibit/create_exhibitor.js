@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../admin_Layout";
 import { Link, useHistory } from "react-router-dom";
-const AdminAgenda = (props) => {
+import Input from './Input'
+const CreateExhibitor = (props) => {
   const history = useHistory();
-  const [day, setDay] = useState("");
-  const [time, setTime] = useState("");
+  const [exhibit_data, setExhibitData] = useState([]);
+  const [logo, setLogo] = useState("");
+  const [flipbook, setFlipBook] = useState([]);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [profile_img, setProfileImage] = useState("");
+  const [content, setContent] = useState("");
+  const [url, setUrl] = useState([]);
+  const [video, setVideo] = useState([]);
+  const [exhibitId, setExhibitId] = useState("");
   const [image, setImage] = useState("");
-  const [events, setEvents] = useState("");
-  const [url, setUrl] = useState("");
 
   const PostData = () => {
-    fetch("/api/v1/agenda/createAgenda", {
+    fetch("/api/v1/exhibit/createExhibit", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        day,
-        time,
         title,
-        description,
-        profile_img,
-        events,
+        content,
+        logo,
+        video,
         url,
+        flipbook,
       }),
     });
-    history.push("/admin/agenda_show");
+    history.push("/admin/exhibit_show");
   };
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const AdminAgenda = (props) => {
         .then((res) => res.json())
         .then((data) => {
           console.log("inner", data);
-          setProfileImage(data.url);
+          setLogo(data.url);
         })
         .catch((err) => {
           console.log(err);
@@ -56,6 +57,23 @@ const AdminAgenda = (props) => {
   const updatePhoto = (file) => {
     setImage(file);
   };
+  const [show, setShow] = useState(false);
+  const [inputs, setInputs] = useState(['input-0']);
+
+//   const ChangeData = () => {
+//     const inputValues = inputValues;
+//     inputValues[name] = value;
+//     setInputValues({ inputValues });
+//   };
+  const handleInputChange = (len) => {
+      setShow(true)
+    var newInput = `input-${inputs.length}`;
+    setInputs(inputs,...newInput)
+    
+    // setInputs(prevState => ({ inputs: prevState.inputs.concat([newInput]) }))
+   
+  };
+  console.log('nnnn',inputs)
   return (
     <div>
       <AdminLayout>
@@ -69,32 +87,10 @@ const AdminAgenda = (props) => {
             >
               <h1 className="text-center" style={{ color: "#10daef" }}>
                 {" "}
-                ADD AGENDA
+                ADD EXHIBITORS
               </h1>
               <br></br>
               <form>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Days</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Days"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Time</label>
-                  <input
-                    type="time"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Time"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                  />
-                </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">Title</label>
                   <input
@@ -107,26 +103,26 @@ const AdminAgenda = (props) => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Description</label>
+                  <label htmlFor="exampleInputPassword1">Content</label>
                   <textarea
                     type="text"
                     className="form-control"
                     id="exampleInputPassword1"
                     placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
                   />
                 </div>
+                {/* <img id="target" src={profile_img}/> */}
                 <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Event</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Title"
-                    value={events}
-                    onChange={(e) => setEvents(e.target.value)}
-                  />
+                  <label htmlFor="exampleInputPassword1">Logo</label>
+                  <div className="upload-btn-wrapper">
+                    <input
+                      type="file"
+                      name="myfile"
+                      onChange={(e) => updatePhoto(e.target.files[0])}
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">URL</label>
@@ -139,15 +135,32 @@ const AdminAgenda = (props) => {
                     onChange={(e) => setUrl(e.target.value)}
                   />
                 </div>
-                {/* <img id="target" src={profile_img}/> */}
+                {show?<div id="dynamicInput">
+                       {inputs.map(input => <Input key={input} />)}
+                   </div>:null}
+                
+            
                 <div className="form-group">
-                  <div className="upload-btn-wrapper">
-                    <input
-                      type="file"
-                      name="myfile"
-                      onChange={(e) => updatePhoto(e.target.files[0])}
-                    />
-                  </div>
+                  <label htmlFor="exampleInputPassword1">FlipBook</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputPassword1"
+                    placeholder="Title"
+                    value={flipbook}
+                    onChange={(e) => setFlipBook(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">Video</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputPassword1"
+                    placeholder="Title"
+                    value={video}
+                    onChange={(e) => setVideo(e.target.value)}
+                  />
                 </div>
 
                 <button
@@ -156,8 +169,9 @@ const AdminAgenda = (props) => {
                   style={{ background: "#10daef" }}
                   onClick={() => PostData()}
                 >
-                  Add Agenda
+                  Add Exhibitor
                 </button>
+                <button type ="button" onClick={()=>handleInputChange()}>Add</button>
               </form>
             </div>
             <div className="col-md-4"></div>
@@ -167,4 +181,4 @@ const AdminAgenda = (props) => {
     </div>
   );
 };
-export default AdminAgenda;
+export default CreateExhibitor;

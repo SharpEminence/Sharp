@@ -27,7 +27,7 @@ const AdminLogin = () => {
 
         if (adminData.data.token) {
           localStorage.setItem("jwt", adminData.data.token);
-          localStorage.setItem("user", JSON.stringify(adminData.data.user));
+          localStorage.setItem("admin", JSON.stringify(adminData.data.user));
           //dispatch({type:"USER",payload:data.user})
           // M.toast({
           //   html: "LOGIN SUCCESSFULL !",

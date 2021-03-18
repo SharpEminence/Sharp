@@ -2,23 +2,24 @@ import React, { useState, useEffect } from "react";
 import AdminLayout from "../admin_Layout";
 import { Link, useHistory } from "react-router-dom";
 import Pagination from "../pagination/pagination";
-const ShowAgenda = (props) => {
+const ShowBreakout = (props) => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
 
   // -------------------------Collecting All Agenda------------------------
 
-  const [agenda, setAgenda] = useState([]);
+  const [breakout_data, setBreakoutData] = useState([]);
   const [day, setDay] = useState("");
   const [time, setTime] = useState("");
   const [title, setTitle] = useState("");
   const [description, setdescription] = useState("");
   const [page, setPage] = useState("");
-  const [agendaId, setAgendaId] = useState("");
+  const [breakoutId, setBreakoutId] = useState("");
   const [profile_img, setProfileImage] = useState("");
-  console.log("dttd===<", day, time, title, description, agendaId, open);
+
   // -----------------------------Fetching Agenda From Server------------------
-  const getAgendaData = () => {
-    fetch("/api/v1/agenda/getAllAgenda", {
+  const getBreakoutData = () => {
+    fetch("/api/v1/breakout/getAll", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -27,23 +28,23 @@ const ShowAgenda = (props) => {
       .then((data) => {
         setPage(data.total);
         console.log("data", data.total);
-        setAgenda(data.data);
+        setBreakoutData(data.data);
       });
   };
 
   useEffect(() => {
     setTimeout(() => {
-      getAgendaData();
-    }, [agenda]);
+      getBreakoutData();
+    }, [breakout_data]);
   }, 2000);
 
-  console.log("ADMIN_AGENDA_INFO=====>", agenda);
+  console.log("ADMIN_breakout_INFO=====>", breakout_data);
 
   //   ---------------------------------DELETE AGENDA------------------------------------
 
-  const deleteAgenda = (postid) => {
+  const deleteBreakout = (postid) => {
     console.log("DeleteID", postid);
-    fetch(`/api/v1/agenda/deleteAgenda/${postid}`, {
+    fetch(`/api/v1/breakout/deleteBreakout/${postid}`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -53,56 +54,54 @@ const ShowAgenda = (props) => {
       .then((result) => {
         alert("DELETED SUCCESFULLY");
         console.log("DELETE RESULT===>", result);
-        getAgendaData();
-        const newData = agenda.filter((item) => {
+        getBreakoutData();
+        const newData = breakout_data.filter((item) => {
           return item._id !== result._id;
         });
-        setAgenda(newData);
+        setBreakoutData(newData);
       });
   };
 
   //   -----------------------------UPDATE AGENDA----------------------------------
-  const updateAgenda = (data) => {
+  const updateBreakout = (data) => {
     console.log("UpdateID========>", data.profile_img);
-    setDay(data.day);
+    // setDay(data.day);
     setTime(data.time);
     setTitle(data.title);
     setdescription(data.description);
-    setAgendaId(data._id);
+    setBreakoutId(data._id);
     setProfileImage(data.profile_img);
-    setUrl(data.url);
-    setEvents(data.events);
+
+    // setImage(URL.createObjectURL(data.profile_img))
+    // this.setState({
+    //   image: URL.createObjectURL(event.target.files[0])
+    // });
 
     setOpen((open) => !open);
   };
-  const history = useHistory();
-  const [events, setEvents] = useState("");
-  const [url, setUrl] = useState("");
-  const Update_Agenda_Data = (e) => {
-    console.log("UPDATE RESULT===>", agendaId);
-    fetch(`/api/v1/agenda/updateAgenda/${agendaId}`, {
+
+  const Update_Breakout_Data = (e) => {
+    console.log("UPDATE RESULT===>", breakoutId);
+    fetch(`/api/v1/breakout/updateBreakout/${breakoutId}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        day,
         time,
         title,
         description,
         profile_img,
-        events,
-        url,
       }),
     })
       .then((res) => res.json())
       .then((result) => {
         console.log("ahsgdjkas", result);
         setTimeout(() => {
-          getAgendaData();
+          getBreakoutData();
         }, 2000);
-        history.push("/admin/agenda_show");
+        history.push("/admin/breakout_show");
       });
   };
 
@@ -111,15 +110,14 @@ const ShowAgenda = (props) => {
   };
   const searchData = (e) => {
     console.log("ee", e);
-    fetch(`/api/v1/agenda/search/?q=${e}`, {
+    fetch(`/api/v1/breakout/search/?q=${e}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data.data);
-        setAgenda(data.data);
+        setBreakoutData(data.data);
       });
   };
 
@@ -140,22 +138,6 @@ const ShowAgenda = (props) => {
         .then((data) => {
           console.log("inner", data);
           setProfileImage(data.url);
-          // setImage
-          // fetch(`/api/v1/user/updatepic/${userdata.user._id}`, {
-          //   method: "post",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-          //   },
-          //   body: JSON.stringify({
-          //     profile_img: data.url,
-          //   }),
-          // })
-          //   .then((res) => res.json())
-          //   .then((result) => {
-          //     console.log("res", result);
-          //     setProfileImage(result.data.profile_img);
-          //   });
         })
         .catch((err) => {
           console.log(err);
@@ -188,8 +170,8 @@ const ShowAgenda = (props) => {
                 className="btn btn-sm btn-warning "
                 style={{ float: "right", background: "#10daef" }}
               >
-                <Link to="/admin/agenda_create" style={{ color: "white" }}>
-                  <b>Add Agenda</b>
+                <Link to="/admin/breakout_create" style={{ color: "white" }}>
+                  <b>Add Session</b>
                 </Link>
               </button>
               <table
@@ -203,7 +185,6 @@ const ShowAgenda = (props) => {
               >
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Day</th>
                     <th scope="col">Time</th>
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
@@ -211,18 +192,17 @@ const ShowAgenda = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {agenda
-                    ? agenda.map((value) => {
+                  {breakout_data
+                    ? breakout_data.map((value) => {
                         return (
                           <tr>
-                            <td>{value.day}</td>
                             <td>{value.time}</td>
                             <td>{value.title}</td>
                             <td>{value.description}</td>
                             <td>
                               <button
                                 className="btn btn-sm btn-danger"
-                                onClick={() => deleteAgenda(value._id)}
+                                onClick={() => deleteBreakout(value._id)}
                               >
                                 <i style={{ fontSize: "24px" }} className="fa">
                                   &#xf014;
@@ -233,7 +213,7 @@ const ShowAgenda = (props) => {
 
                               <div>
                                 <button
-                                  onClick={() => updateAgenda(value)}
+                                  onClick={() => updateBreakout(value)}
                                   className="btn btn-sm btn-primary "
                                 >
                                   <i
@@ -264,17 +244,6 @@ const ShowAgenda = (props) => {
               <div>
                 <div style={{ marginTop: "50px" }}>
                   <form>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Days</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Days"
-                        value={day}
-                        onChange={(e) => setDay(e.target.value)}
-                      />
-                    </div>
                     <div className="form-group">
                       <label htmlFor="exampleInputPassword1">Time</label>
                       <input
@@ -328,28 +297,6 @@ const ShowAgenda = (props) => {
                         onChange={(e) => setdescription(e.target.value)}
                       />
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Event</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Title"
-                        value={events}
-                        onChange={(e) => setEvents(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">URL</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Title"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                      />
-                    </div>
                     <button
                       className="btn btn-warning d-flex justify-content-center"
                       style={{
@@ -368,9 +315,9 @@ const ShowAgenda = (props) => {
                         background: "#10daef",
                         textAlign: "center",
                       }}
-                      onClick={Update_Agenda_Data}
+                      onClick={Update_Breakout_Data}
                     >
-                      Edit Agenda
+                      Edit Session
                     </button>
                   </form>
                 </div>
@@ -382,4 +329,4 @@ const ShowAgenda = (props) => {
     </div>
   );
 };
-export default ShowAgenda;
+export default ShowBreakout;

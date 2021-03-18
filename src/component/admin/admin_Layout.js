@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import Footer from "../footer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const AdminLayout = (props) => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
 
   const onSlide = () => {
     setOpen((open) => !open);
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem("admin");
+    history.push("/admin/login");
+  };
   return (
     <div>
       <header>
-        <nav className="navbar navbar-expand-lg fixed-top" style={{background:'#10daef'}}>
+        <nav
+          className="navbar navbar-expand-lg fixed-top"
+          style={{ background: "#10daef" }}
+        >
           <div className="header_inner d-flex align-items-center justify-content-between">
             <div className="header-left">
               <img
@@ -31,8 +38,15 @@ const AdminLayout = (props) => {
                 />
               </div>
               <div className="profile-icon">
+                {/* <Link to="/admin/login"> */}
                 <div className="dropdown show">
-                  <a
+                  <button onClick={handleLogout}>
+                    <img
+                      src={process.env.PUBLIC_URL + "/assets/images/logout.jpg"}
+                      className="img-fluid"
+                    />
+                  </button>
+                  {/* <a
                     className="btn btn-secondary dropdown-toggle"
                     href="#"
                     role="button"
@@ -41,14 +55,10 @@ const AdminLayout = (props) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + "/assets/images/user-icon.png"
-                      }
-                      className="img-fluid"
-                    />
-                  </a>
+                    
+                  </a> */}
                 </div>
+                {/* </Link> */}
               </div>
             </div>
           </div>
@@ -130,7 +140,7 @@ const AdminLayout = (props) => {
                   </Link>
                 </li>
                 <li className="Speakers-menu">
-                  <Link to="/breakoutSession">
+                  <Link to="/admin/breakout_show">
                     <div className="side-menuimg">
                       <img
                         className="greyicon"
@@ -153,7 +163,7 @@ const AdminLayout = (props) => {
                   </Link>
                 </li>
                 <li className="Exhibit-Hall-menu">
-                  <Link to="#">
+                <Link to="/admin/exhibit_show">
                     <div className="side-menuimg">
                       <img
                         className="greyicon"
@@ -171,6 +181,7 @@ const AdminLayout = (props) => {
                       />
                     </div>
                     <div className="side-menutext">
+                      
                       <span>Exhibit Hall</span>
                     </div>
                   </Link>
@@ -339,8 +350,6 @@ const AdminLayout = (props) => {
           {props.children}
         </div>
       </section>
-
-     
     </div>
   );
 };
