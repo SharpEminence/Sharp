@@ -32,7 +32,8 @@ import Admin_Breakout_Show from "./component/admin/breakoutSession/admin_breakou
 import Admin_Exhibit_Show from "./component/admin/exhibit/showExhibit"
 import ProtectedRoute from "./routes/ProtectedRoute";
 import CreateExhibitor from "./component/admin/exhibit/create_exhibitor";
-
+import ExhibitHall from "./component/ExhibitHall/exhibitHall";
+import IlluJoin from "./component/breakOutSession/illu_Join";
 const Routing = (props) => {
   const history = useHistory();
   React.useEffect(() => {
@@ -53,6 +54,12 @@ const Routing = (props) => {
   };
   return (
     <Switch>
+      <Route exact path="/illu_join">
+        <IlluJoin />
+      </Route>
+      <Route exact path="/exhibit_Hall/:id">
+        <ExhibitHall />
+      </Route>
       <Route exact path="/admin/agenda_show">
         <Admin_Agenda_Show />
       </Route>

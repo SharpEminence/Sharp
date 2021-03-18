@@ -58,26 +58,26 @@ const Agenda = (props) => {
   //GETTING ALL AGENDA
   const [loader, setLoader] = useState(true);
   const [favIdData,setfavData] = useState([])
-  useEffect(()=>{
-    getAgendaId()
-  },[])
-  const getAgendaId = () =>{
-    let id = localStorage.getItem("user")
+  // useEffect(()=>{
+  //   getAgendaId()
+  // },[])
+  // const getAgendaId = () =>{
+  //   let id = localStorage.getItem("user")
     
-    fetch(`/api/v1/agenda/getAgendaById/${id._id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        let dt = data.data.map((d)=>{
-          return d.agenda_id
-        })
-        console.log('dt',dt)
-      });
-  }
+  //   fetch(`/api/v1/agenda/getAgendaById/${id._id}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       let dt = data.data.map((d)=>{
+  //         return d.agenda_id
+  //       })
+  //       console.log('dt',dt)
+  //     });
+  // }
   const getAgendaData = () => {
     fetch("/api/v1/agenda/getAllAgenda", {
       headers: {
@@ -203,7 +203,7 @@ const Agenda = (props) => {
                                 <div className="faq-excert ">
                                   <p>
                                     {read_More
-                                      ? value.description.substring(0, 300)
+                                      ? value.description.substring(0, 0)
                                       : value.description}
                                   </p>
                                 </div>
@@ -215,9 +215,15 @@ const Agenda = (props) => {
                                   onClick={(e) => readMore(value)}
                                 >
                                   Learn More{" "}
-                                  {read_More
-                                    ? value._id && <>&gt;</>
-                                    : value._id && <span>&gt;</span>}
+                                  {read_More ? (
+                                      <span
+                                        style={{ transform: "rotate(270deg)" }}
+                                      >
+                                        &gt;
+                                      </span>
+                                    ) : (
+                                      <span>&gt;</span>
+                                    )}
                                 </a>
                               </div>
                             </div>

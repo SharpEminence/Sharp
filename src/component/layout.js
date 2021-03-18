@@ -157,7 +157,7 @@ const Layout = (props) => {
                   </Link>
                 </li>
                 <li className="Exhibit-Hall-menu">
-                  <Link to="#">
+                  <Link to="exhibit_Hall">
                     <div className="side-menuimg">
                       <img
                         className="greyicon"

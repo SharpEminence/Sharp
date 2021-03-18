@@ -5,20 +5,34 @@ const Mainstage = () => {
   return (
     <div>
       <Layout>
-      <div className="content-sec mainstagewrap sideSpacing_allPage">
-        <div className="container">
-          {/*----==================page main heading start==================----*/}
-          <div className="page-heading">
-            <h2>Main Stage</h2>
-          </div>
-          {/*----==================page main heading ends==================----*/}
-          {/*----==================mainstage image section start==================----*/}
-          <div className="mainstageimage">
-          <div className="dashboard_video sideSpacing_allPage">
-            <div>
-              <div className="welcomeVideo"  >
-                <div className="video">
-                  <video
+        <div className="content-sec mainstagewrap sideSpacing_allPage">
+          <div className="container">
+            {/*----==================page main heading start==================----*/}
+            <div className="page-heading">
+              <h2>Main Stage</h2>
+            </div>
+            {/*----==================page main heading ends==================----*/}
+            {/*----==================mainstage image section start==================----*/}
+            <div className="mainstageimage">
+              <div className="dashboard_video sideSpacing_allPage">
+                <div>
+                  <div className="welcomeVideo">
+                    <div className="video">
+                      <iframe
+                        src="https://iframe.dacast.com/live/d1475675-7b51-3e25-fb47-596ae1dfdf8f/5d6f8f77-f998-4e73-ba6d-7ff99798dbdb"
+                        width="100%"
+                        height="100%"
+                        frameborder="0"
+                        scrolling="auto"
+                        allow="autoplay"
+                        allowfullscreen
+                        webkitallowfullscreen
+                        mozallowfullscreen
+                        oallowfullscreen
+                        msallowfullscreen
+                      ></iframe>
+
+                      {/* <video
                     controls
                     width
                     poster={
@@ -33,60 +47,82 @@ const Mainstage = () => {
                       type="video/mp4"
                     />
                     Your browser does not support HTML video.
-                  </video>
-                  <div className="videoControlBtn play-bt">
-                   
+                  </video> */}
+                      <div className="videoControlBtn play-bt"></div>
+                      <div
+                        className="videoControlBtn pause-bt"
+                        style={{ display: "none" }}
+                      ></div>
+                      <div className="mute-bt" />
+                    </div>
                   </div>
-                  <div
-                    className="videoControlBtn pause-bt"
-                    style={{ display: "none" }}
-                  >
-                   
+                </div>
+              </div>
+            </div>
+            {/*----==================mainstage image section ends==================----*/}
+            {/*----==================mainstage listing section start==================----*/}
+            <div className="mainstagelistwrap">
+              <div className="mainstagelist row">
+                <div className="col-lg-4 p-0">
+                  <div className="mainstagelistimg">
+                    <img
+                      className="img-fluid"
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/mainstagelistimg.png"
+                      }
+                    />
                   </div>
-                  <div className="mute-bt" />
+                </div>
+                <div className="col-lg-8 p-0">
+                  <div className="mainstagelisttxt">
+                    <h2>LOREM IPSUM DOLOR SIT AMET, CONSECTETUER | 9:00 AM</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                      sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                      magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                      quis nostrud exerci tation ullamcorper suscipit lobortis
+                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                      sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                      magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                      quis nostrud exerci tation ullamcorper suscipit lobortis
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
- 
-          </div>
-          {/*----==================mainstage image section ends==================----*/}
-          {/*----==================mainstage listing section start==================----*/}
-          <div className="mainstagelistwrap">
-            <div className="mainstagelist row">
-              <div className="col-lg-4 p-0">
-                <div className="mainstagelistimg">
-                  <img className="img-fluid"   src={
+              <div className="mainstagelist row">
+                <div className="col-lg-4 p-0">
+                  <div className="mainstagelistimg">
+                    <img
+                      className="img-fluid"
+                      src={
                         process.env.PUBLIC_URL +
-                        "/assets/images/mainstagelistimg.png"} />
+                        "/assets/images/mainstagelistimg.png"
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="col-lg-8 p-0">
-                <div className="mainstagelisttxt">
-                  <h2>LOREM IPSUM DOLOR SIT AMET, CONSECTETUER | 9:00 AM</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis</p>
-                </div>
-              </div>
-            </div>
-            <div className="mainstagelist row">
-              <div className="col-lg-4 p-0">
-                <div className="mainstagelistimg">
-                  <img className="img-fluid"   src={
-                        process.env.PUBLIC_URL +
-                        "/assets/images/mainstagelistimg.png"} />
-                </div>
-              </div>
-              <div className="col-lg-8 p-0">
-                <div className="mainstagelisttxt">
-                  <h2>LOREM IPSUM DOLOR SIT AMET, CONSECTETUER | 9:00 AM</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis</p>
+                <div className="col-lg-8 p-0">
+                  <div className="mainstagelisttxt">
+                    <h2>LOREM IPSUM DOLOR SIT AMET, CONSECTETUER | 9:00 AM</h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                      sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                      magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                      quis nostrud exerci tation ullamcorper suscipit lobortis
+                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                      sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                      magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                      quis nostrud exerci tation ullamcorper suscipit lobortis
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
+            {/*----==================mainstage listing section ends==================----*/}
           </div>
-          {/*----==================mainstage listing section ends==================----*/}
-        </div>
-      </div>      </Layout>
+        </div>{" "}
+      </Layout>
     </div>
   );
 };
