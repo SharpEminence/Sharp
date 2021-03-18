@@ -14,10 +14,14 @@ let agendaSchema = mongoose.Schema({
   description: {
     type: String,
   },
-  profile_img:{
+  profile_img: {
     type: String,
-    
-  }
-  
+  },
+  events: {
+    type: String,
+  },
+  url: {
+    type: String,
+  },
 });
 module.exports = mongoose.model("agendas", agendaSchema);

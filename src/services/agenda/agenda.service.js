@@ -97,6 +97,8 @@ class AgendaService {
         title: req.body.title,
         description: req.body.description,
         profile_img: req.body.profile_img,
+        events:req.body.events,
+        url:req.body.url
       });
       await doc.save();
       this._response = {
