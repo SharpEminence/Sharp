@@ -5,7 +5,6 @@ dotenv.config();
 const fs = require("fs");
 const md5 = require("md5");
 
-
 let cachedDb = null;
 
 const uri = process.env.MONGO_URL;
@@ -15,23 +14,24 @@ const options = {
   useUnifiedTopology: true,
 };
 module.exports = class DBManager {
-    async connectToDatabase() {
-       
-        // const uri = `mongodb://localhost:27017/mongo`;
-         const uri = process.env.MONGO_URL  //localmongoURL
-        const options = {
-           
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }
-        mongoose.connect(uri, options)
-            .then(client => {
-                console.log("Connection Established !!", uri);
-            }).catch((error) => {
-                console.log('Database connection failed !!', error.message)
-            });
-    }
-}
+  async connectToDatabase() {
+    // const uri = `mongodb://localhost:27017/mongo`;
+    const uri = process.env.MONGO_URL; //localmongoURL
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+     
+    };
+    mongoose
+      .connect(uri, options)
+      .then((client) => {
+        console.log("Connection Established !!", uri);
+      })
+      .catch((error) => {
+        console.log("Database connection failed !!", error.message);
+      });
+  }
+};
 // function connectToDatabase() {
 //   console.log("Connecting...");
 

@@ -97,8 +97,7 @@ class AgendaService {
         title: req.body.title,
         description: req.body.description,
         profile_img: req.body.profile_img,
-        events:req.body.events,
-        url:req.body.url
+        event:req.body.event,
       });
       await doc.save();
       this._response = {
@@ -119,6 +118,7 @@ class AgendaService {
   //Favourite Agendas
 
   async addFavouriteAgenda(req) {
+    
     try {
       console.log('reeeee',req.body)
       const body = req.body;
@@ -196,6 +196,7 @@ class AgendaService {
           status: true,
           message: "data fetched succesfully",
           data: data,
+          total:data.length
         };
 
         return requestHelper.respondWithJsonBody(200, this._response);
