@@ -117,7 +117,7 @@ const AdminLayout = (props) => {
                   </Link>
                 </li>
                 <li className="Main-Stage-menu active">
-                  <Link to="/mainstage">
+                  <Link to="/#">
                     <div className="side-menuimg">
                       <img
                         className="greyicon"
@@ -163,7 +163,7 @@ const AdminLayout = (props) => {
                   </Link>
                 </li>
                 <li className="Exhibit-Hall-menu">
-                <Link to="/admin/exhibit_show">
+                  <Link to="/admin/exhibit_show">
                     <div className="side-menuimg">
                       <img
                         className="greyicon"
@@ -181,7 +181,6 @@ const AdminLayout = (props) => {
                       />
                     </div>
                     <div className="side-menutext">
-                      
                       <span>Exhibit Hall</span>
                     </div>
                   </Link>

@@ -73,6 +73,7 @@ const Login = () => {
 
         if (data.data.token) {
           localStorage.setItem("jwt", data.data.token);
+          localStorage.setItem("user", JSON.stringify(data.data.user));
           localStorage.setItem("user_id", data.data.user._id);
           dispatch(addUser(data.data.user));
           //dispatch({type:"USER",payload:data.user})

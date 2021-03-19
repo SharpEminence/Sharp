@@ -18,8 +18,8 @@ const Mainstage = () => {
                 <div>
                   <div className="welcomeVideo">
                     <div className="video">
-                      <iframe
-                        src="https://iframe.dacast.com/live/d1475675-7b51-3e25-fb47-596ae1dfdf8f/5d6f8f77-f998-4e73-ba6d-7ff99798dbdb"
+                      {/* <iframe
+                        src="https://di2gn0dctaz51.cloudfront.net/2021/March/CDFI/Videos/CDFI+LIVE+09_t.mp4"
                         width="100%"
                         height="100%"
                         frameborder="0"
@@ -30,9 +30,9 @@ const Mainstage = () => {
                         mozallowfullscreen
                         oallowfullscreen
                         msallowfullscreen
-                      ></iframe>
+                      ></iframe> */}
 
-                      {/* <video
+                      <video
                     controls
                     width
                     poster={
@@ -43,11 +43,11 @@ const Mainstage = () => {
                     style={{ width: "1600px",paddingRight:"800px" }}
                   >
                     <source
-                      src="https://www.w3schools.com/html/mov_bbb.mp4"
+                     src="https://di2gn0dctaz51.cloudfront.net/2021/March/CDFI/Videos/CDFI+LIVE+09_t.mp4"
                       type="video/mp4"
                     />
                     Your browser does not support HTML video.
-                  </video> */}
+                  </video>
                       <div className="videoControlBtn play-bt"></div>
                       <div
                         className="videoControlBtn pause-bt"

@@ -2,6 +2,8 @@ import logo from "./logo.svg";
 import React from "react";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
+import ScrollToTop from "../src/component/Scroll";
+
 import Login from "./component/login/Login";
 import Countdown from "./component/login/countdown";
 import Layout from "./component/layout";
@@ -29,29 +31,15 @@ import Admin_Login from "./component/admin/admin_Login";
 import Admin_Dashboard from "./component/admin/dashBoard.js/dashboard_Admin";
 import Admin_Agenda_Show from "./component/admin/agenda/showAgenda";
 import Admin_Breakout_Show from "./component/admin/breakoutSession/admin_breakout";
-import Admin_Exhibit_Show from "./component/admin/exhibit/showExhibit"
-import ProtectedRoute from "./routes/ProtectedRoute";
+import Admin_Exhibit_Show from "./component/admin/exhibit/showExhibit";
 import CreateExhibitor from "./component/admin/exhibit/create_exhibitor";
 import ExhibitHall from "./component/ExhibitHall/exhibitHall";
 import IlluJoin from "./component/breakOutSession/illu_Join";
+import ExhibitHall_Layout from './component/ExhibitHall/exhibitHallLayout'
 const Routing = (props) => {
   const history = useHistory();
-  React.useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      history.push("/");
-    }
-  }, []);
-  const { user } = props;
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  const login = () => {
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-  };
+ 
+  
   return (
     <Switch>
       <Route exact path="/illu_join">
@@ -60,6 +48,16 @@ const Routing = (props) => {
       <Route exact path="/exhibit_Hall/:id">
         <ExhibitHall />
       </Route>
+      <Route exact path="/">
+        <Login />
+      </Route>
+     
+      <Route exact path="/exhibit_Hall">
+        <ExhibitHall_Layout />
+      </Route>
+      {/* <Route exact path="/login">
+        <Login />
+      </Route> */}
       <Route exact path="/admin/agenda_show">
         <Admin_Agenda_Show />
       </Route>
@@ -142,22 +140,16 @@ const Routing = (props) => {
       <Route exact path="/profile">
         <Profile />
       </Route>
-      <ProtectedRoute
-        isAuthenticated={isAuthenticated}
-        path="/"
-        logout={logout}
-        component={Dashboard}
-      />
-      {/* <Route exact path="/admin_Agenda">
-        <Admin_Agenda />
-      </Route> */}
+    
     </Switch>
   );
 };
 function App() {
   return (
     <BrowserRouter>
-      <Routing />
+      <ScrollToTop>
+        <Routing />
+      </ScrollToTop>
     </BrowserRouter>
   );
 }

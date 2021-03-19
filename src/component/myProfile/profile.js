@@ -5,6 +5,12 @@ import Layout from "../layout";
 import { editUser } from "../../redux/action";
 
 const Profile = () => {
+  const [read_More, setReadMore] = useState(false);
+
+  var readMore = (data) => {
+    console.log("clickACTIVITY", data);
+    setReadMore((read_More) => !read_More);
+  };
   const dispatch = useDispatch();
   const [favAgenda, setFav] = useState([]);
   //USER DATA
@@ -14,7 +20,7 @@ const Profile = () => {
 
   //USER FAV AGENDA
   const fav = () => {
-    let id = localStorage.getItem("user_id")
+    let id = localStorage.getItem("user_id");
     fetch(`/api/v1/agenda/getAgendaById/${id}`, {
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +62,7 @@ const Profile = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("inner", data);
-          let id = localStorage.getItem("user_id")
+          let id = localStorage.getItem("user_id");
           fetch(`/api/v1/user/updatepic/${id}`, {
             method: "post",
             headers: {
@@ -80,7 +86,7 @@ const Profile = () => {
   }, [image]);
 
   const getProfile = () => {
-    let id = localStorage.getItem("user_id")
+    let id = localStorage.getItem("user_id");
     // console.log('uuu',userId)
     fetch(`/api/v1/user/getProfile/${id}`, {
       method: "get",
@@ -99,8 +105,8 @@ const Profile = () => {
         setEmail(result.data.email);
       });
   };
-let id = localStorage.getItem("jwt")
-  console.log('uuu',id)
+  let id = localStorage.getItem("jwt");
+  console.log("uuu", id);
   console.log("profile image", profile_img);
   // handleChange(event) {
   //   this.setState({
@@ -109,7 +115,7 @@ let id = localStorage.getItem("jwt")
   // }
   const UpdateProfile = () => {
     console.log("dfdfdfdfd", profileData);
-    let id = localStorage.getItem("user_id")
+    let id = localStorage.getItem("user_id");
     fetch(`/api/v1/user/updateProfile/${id}`, {
       method: "post",
       headers: {
@@ -252,14 +258,31 @@ let id = localStorage.getItem("jwt")
                                 />
                               </span>
                             </h3>
-                            <h3>{value.description}</h3>
+                            <div className="faq-excert ">
+                              <p>
+                                {read_More
+                                  ? value.description.substring(0, 0)
+                                  : value.description}
+                              </p>
+                            </div>
                             {/*<div class="faq-excert ">
 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim </p>
 </div>*/}
                           </div>
                           <div className="agendabtnwrap text-right col-auto p-0">
-                            <a className="faqbtn agendabtn" href="#">
-                              Learn More <span>&gt;</span>
+                            <a
+                              className="faqbtn agendabtn"
+                              href="#"
+                              onClick={(e) => readMore(value)}
+                            >
+                              Learn More{" "}
+                              {read_More ? (
+                                <span style={{ transform: "rotate(270deg)" }}>
+                                  &gt;
+                                </span>
+                              ) : (
+                                <span>&gt;</span>
+                              )}
                             </a>
                           </div>
                         </div>

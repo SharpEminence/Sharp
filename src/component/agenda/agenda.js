@@ -18,6 +18,7 @@ const Agenda = (props) => {
   const [click, setClick] = useState(false);
   const [favId, setFavId] = useState([]);
   const onSlide = (inputName) => {
+      let id = JSON.parse(localStorage.getItem("user"));
     setChecked((prevState) => {
       const newState = { ...prevState };
       newState[inputName] = !prevState[inputName];
@@ -39,13 +40,13 @@ const Agenda = (props) => {
       },
       body: JSON.stringify({
         agenda_id: inputName,
-        user_id: users[0].user._id,
+        user_id: id._id,
         status: click,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("resp", data.data.status);
+        // console.log("resp", data.data.status);
         setHeartLocal(data.data.status);
       });
     for (const prop in heartData) {
@@ -57,27 +58,33 @@ const Agenda = (props) => {
   console.log("dhdhdh", click);
   //GETTING ALL AGENDA
   const [loader, setLoader] = useState(true);
-  const [favIdData,setfavData] = useState([])
-  // useEffect(()=>{
-  //   getAgendaId()
-  // },[])
-  // const getAgendaId = () =>{
-  //   let id = localStorage.getItem("user")
+  const [favIdData, setfavData] = useState([]);
+  const [fillHeart, setFillHeart] = useState([{value:null}]);
+  useEffect(() => {
+    getAgendaId();
+  }, []);
+  const getAgendaId = () => {
+    let id = JSON.parse(localStorage.getItem("user"));
+    fetch(`/api/v1/agenda/getAgendaById/${id._id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+   
+        let dt = data.data.map((d) => {
+          return d._id;
+        });
     
-  //   fetch(`/api/v1/agenda/getAgendaById/${id._id}`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       let dt = data.data.map((d)=>{
-  //         return d.agenda_id
-  //       })
-  //       console.log('dt',dt)
-  //     });
-  // }
+      let age = agenda.map((d)=>{ return d._id})
+        let res = age.filter((item) => dt.includes(item));
+        console.log("rrrr", res);
+        setFillHeart(dt);
+      });
+  };
+  console.log('fill',fillHeart)
   const getAgendaData = () => {
     fetch("/api/v1/agenda/getAllAgenda", {
       headers: {
@@ -216,14 +223,14 @@ const Agenda = (props) => {
                                 >
                                   Learn More{" "}
                                   {read_More ? (
-                                      <span
-                                        style={{ transform: "rotate(270deg)" }}
-                                      >
-                                        &gt;
-                                      </span>
-                                    ) : (
-                                      <span>&gt;</span>
-                                    )}
+                                    <span
+                                      style={{ transform: "rotate(270deg)" }}
+                                    >
+                                      &gt;
+                                    </span>
+                                  ) : (
+                                    <span>&gt;</span>
+                                  )}
                                 </a>
                               </div>
                             </div>

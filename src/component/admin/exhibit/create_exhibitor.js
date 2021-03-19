@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../admin_Layout";
 import { Link, useHistory } from "react-router-dom";
-import Input from './Input'
+import Input from "./Input";
 const CreateExhibitor = (props) => {
   const history = useHistory();
   const [exhibit_data, setExhibitData] = useState([]);
@@ -9,12 +9,13 @@ const CreateExhibitor = (props) => {
   const [flipbook, setFlipBook] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [url, setUrl] = useState([]);
-  const [video, setVideo] = useState([]);
+
   const [exhibitId, setExhibitId] = useState("");
   const [image, setImage] = useState("");
 
   const PostData = () => {
+      const urls = url.map((d)=>{return d.value})
+      const videos = video.map((d)=>{return d.value})
     fetch("/api/v1/exhibit/createExhibit", {
       method: "post",
       headers: {
@@ -25,8 +26,8 @@ const CreateExhibitor = (props) => {
         title,
         content,
         logo,
-        video,
-        url,
+        video:videos,
+        url:urls,
         flipbook,
       }),
     });
@@ -57,23 +58,42 @@ const CreateExhibitor = (props) => {
   const updatePhoto = (file) => {
     setImage(file);
   };
-  const [show, setShow] = useState(false);
-  const [inputs, setInputs] = useState(['input-0']);
 
-//   const ChangeData = () => {
-//     const inputValues = inputValues;
-//     inputValues[name] = value;
-//     setInputValues({ inputValues });
-//   };
-  const handleInputChange = (len) => {
-      setShow(true)
-    var newInput = `input-${inputs.length}`;
-    setInputs(inputs,...newInput)
-    
-    // setInputs(prevState => ({ inputs: prevState.inputs.concat([newInput]) }))
-   
+  const [url, setUrl] = useState([{ value: null }]);
+  const [video, setVideo] = useState([{ value: null }]);
+  const handleChangeUrl = (i, event) => {
+    const values = [...url];
+    values[i].value = event.target.value;
+    setUrl(values);
   };
-  console.log('nnnn',inputs)
+  const handleChangeVideo = (i, event) => {
+    const values = [...video];
+    values[i].value = event.target.value;
+    setVideo(values);
+  };
+
+  const handleAddUrl = () => {
+    const values = [...url];
+    values.push({ value: null });
+    setUrl(values);
+  };
+  const handleAddVideo = () => {
+    const values = [...video];
+    values.push({ value: null });
+    setVideo(values);
+  };
+
+  const handleRemoveVideo = (i) => {
+    const values = [...video];
+    values.splice(i, 1);
+    setVideo(values);
+  };
+  const handleRemoveUrl = (i) => {
+    const values = [...url];
+    values.splice(i, 1);
+    setUrl(values);
+  };
+
   return (
     <div>
       <AdminLayout>
@@ -124,22 +144,33 @@ const CreateExhibitor = (props) => {
                     />
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">URL</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Title"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                  />
+                  <button type="button" onClick={() => handleAddUrl()}>
+                    Add
+                  </button>
+
+                  {url.map((field, idx) => {
+                    return (
+                      <div key={`${field}-${idx}`}>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={field.value || ""}
+                          onChange={(e) => handleChangeUrl(idx, e)}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveUrl(idx)}
+                        >
+                          X
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
-                {show?<div id="dynamicInput">
-                       {inputs.map(input => <Input key={input} />)}
-                   </div>:null}
-                
-            
+
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">FlipBook</label>
                   <input
@@ -152,15 +183,29 @@ const CreateExhibitor = (props) => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputPassword1">Video</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Title"
-                    value={video}
-                    onChange={(e) => setVideo(e.target.value)}
-                  />
+                  <label htmlFor="exampleInputPassword1">Video Url</label>
+                  <button type="button" onClick={() => handleAddVideo()}>
+                    Add
+                  </button>
+
+                  {video.map((field, idx) => {
+                    return (
+                      <div key={`${field}-${idx}`}>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={field.value || ""}
+                          onChange={(e) => handleChangeVideo(idx, e)}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveVideo(idx)}
+                        >
+                          X
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <button
@@ -171,7 +216,6 @@ const CreateExhibitor = (props) => {
                 >
                   Add Exhibitor
                 </button>
-                <button type ="button" onClick={()=>handleInputChange()}>Add</button>
               </form>
             </div>
             <div className="col-md-4"></div>

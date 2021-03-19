@@ -28,20 +28,16 @@ const DashBoard = () => {
                     style={{ width: "760px", marginLeft: "40px" }}
                   >
                     <source
-                      src="https://www.w3schools.com/html/mov_bbb.mp4"
+                      src="https://di2gn0dctaz51.cloudfront.net/2021/March/CDFI/Videos/CDFI+LIVE+09_t.mp4"
                       type="video/mp4"
                     />
                     Your browser does not support HTML video.
                   </video>
-                  <div className="videoControlBtn play-bt">
-                   
-                  </div>
+                  <div className="videoControlBtn play-bt"></div>
                   <div
                     className="videoControlBtn pause-bt"
                     style={{ display: "none" }}
-                  >
-                   
-                  </div>
+                  ></div>
                   <div className="mute-bt" />
                 </div>
               </div>
@@ -69,16 +65,20 @@ const DashBoard = () => {
           <div className="mainstagedashwrap">
             <div className="container">
               <div className="dg-slider-wrap">
-                <h2 className="slider-heading" style={{ paddingRight: "90px" }}>
+                <h2
+                  className="slider-heading"
+                  style={{ paddingRight: "110px" }}
+                >
                   MAIN STAGE
                 </h2>
-                <div className="mainstagelistwrap" >
-                  
-                    <Test/>
-                    
-                  
-                  <div className="dashgostagebtn" style={{ paddingRight: "90px" }}>
-                    <Link to="/mainstage" >Go to Stage &gt;</Link>
+                <div>
+                  <Test />
+
+                  <div
+                    className="dashgostagebtn"
+                    style={{ paddingRight: "110px" }}
+                  >
+                    <Link to="/mainstage">Go to Stage &gt;</Link>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,10 @@ const DashBoard = () => {
           <div className="breskpoutsession">
             <div className="container">
               <div className="dg-slider-wrap">
-                <h2 className="slider-heading" style={{ paddingRight: "90px" }}>
+                <h2
+                  className="slider-heading"
+                  style={{ paddingRight: "100px" }}
+                >
                   BREAKOUT SESSIONS
                 </h2>
                 <br />
@@ -102,13 +105,12 @@ const DashBoard = () => {
           {/*-------=============breakout sessions slider ends=============-------------*/}
           <div className="metorexhibitordash">
             <div className="container">
-              <div className="moesliderwrap">
+              <div>
                 <h2 className="slider-heading" style={{ paddingRight: "80px" }}>
                   MEET OUR EXHIBITORS
                 </h2>
-                <div className="logos-slide slider">
-                  <Exhibitor_Carousel />
-                </div>
+
+                <Exhibitor_Carousel />
               </div>
             </div>
           </div>
@@ -116,20 +118,22 @@ const DashBoard = () => {
           {/*-------=============EXPLORE EXHIBIT section start=============-------------*/}
           <div className="exploreexhibit">
             <div className="container">
-              <div className="exploreexhibitinner">
-                <div className="exploreexhibitimg">
-                  <img
-                    className="img-fluid"
-                    style={{ paddingLeft: "70px", height: "290px" }}
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/exhibit-hall-bg.png"
-                    }
-                    alt=""
-                  />
+              <Link to="/exhibit_Hall">
+                <div className="exploreexhibitinner">
+                  <div className="exploreexhibitimg">
+                    <img
+                      className="img-fluid"
+                      style={{ paddingLeft: "70px", height: "290px" }}
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/exhibit-hall-bg.png"
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <h2>EXPLORE EXHIBIT HALL</h2>
                 </div>
-                <h2>EXPLORE EXHIBIT HALL</h2>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

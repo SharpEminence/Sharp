@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Layout from "../layout";
-const ExhibitHall = () => {
+const ExhibitHallLayout = () => {
   const { id } = useParams();
   const [ExhibitHall_DATA, setExhibitHall] = useState({});
   console.log("exhibitHall_data", ExhibitHall_DATA);
   console.log(id);
   //GET_EXHIBIT_HALL_DATA
   const getExhibitHallData = () => {
-    fetch(`/api/v1/exhibit/getExhibit/${id}`, {
+    fetch(`/api/v1/exhibit//getExhibit/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -16,7 +16,7 @@ const ExhibitHall = () => {
     })
       .then((res) => res.json())
       .then((exhibitHall_data) => {
-         console.log("exhibitHall_data", exhibitHall_data.data[0].video);
+        // console.log("exhibitHall_data", exhibitHall_data.data[0]);
         setExhibitHall(exhibitHall_data.data[0]);
       });
   };
@@ -38,6 +38,29 @@ const ExhibitHall = () => {
               <div className="page-heading">
                 <h2>Meet Our Exhibitors</h2>
               </div>
+              <div className="exhibitrhead d-flex justify-content-between align-items-center">
+                <div className="exhibitrtxt">
+                  <h2>CABRILLO CREDIT UNION</h2>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                    sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                    magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                    quis nostrud exerci tation ullamcorper suscipit lobortis
+                    nisl ut aliquip ex ea commodo consequat. Duis autem vel eum
+                    iriure dolor in hendrerit in vulputate velit esse molestie
+                    consequat, vel illum dolore eu feugiat nulla facilisis at
+                    vero eros et accumsan et iusto odio dignissim qui blandit
+                    praesent luptatum zzril delenit augue duis dolore.
+                  </p>
+                </div>
+                <div className="exhibitrlogo">
+                  <img
+                    className="img-fluid"
+                    src="images/exhibitorlogo434.png"
+                    alt=""
+                  />
+                </div>
+              </div>
               {/*----==================page main heading ends==================----*/}
               {/*----==================exhibitor section start==================----*/}
               <div className="exhibitrhead d-flex justify-content-between align-items-center">
@@ -53,33 +76,13 @@ const ExhibitHall = () => {
                   />
                 </div>
               </div>
-              {/* {ExhibitHall_DATA.video.map((d)=>())} */}
               <div className="exhibitorvideosec">
                 <div className="exhibitorvidwrap">
-           
-                <video
-                        controls
-                        width
-                        poster={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/videoPoster.png"
-                        }
-                        className="dashboardVideoMedia"
-                        id="ban_video"
-                        style={{ width: "1600px", paddingRight: "800px" }}
-                      >
-                        <source
-                      src="https://di2gn0dctaz51.cloudfront.net/2021/March/CDFI/Videos/CDFI+LIVE+09_t.mp4"
-                          type="video/mp4"
-                        />
-                        Your browser does not support HTML video.
-                      </video>
-                      <div className="videoControlBtn play-bt"></div>
-                      <div
-                        className="videoControlBtn pause-bt"
-                        style={{ display: "none" }}
-                      ></div>
-                      <div className="mute-bt" />
+                  <img
+                    src={process.env.PUBLIC_URL + "/assets/images/vidimg.png"}
+                    className="img-fluid"
+                    alt=""
+                  />
                 </div>
                 <div className="exhibitorvidthumbwrap d-flex justify-content-between">
                   <div className="exhibitorvidthumblst">
@@ -190,4 +193,4 @@ const ExhibitHall = () => {
   );
 };
 
-export default ExhibitHall;
+export default ExhibitHallLayout;

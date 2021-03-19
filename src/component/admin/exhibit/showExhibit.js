@@ -13,7 +13,7 @@ const ShowExhibit = (props) => {
   const [flipbook, setFlipBook] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [url, setUrl] = useState([]);
+  const [url, setUrl] = useState([{ value: null }]);
   const [video, setVideo] = useState([]);
   const [exhibitId, setExhibitId] = useState("");
   const [image, setImage] = useState("");
@@ -66,6 +66,7 @@ const ShowExhibit = (props) => {
   const updateExhibit = (data) => {
     console.log("UpdateID========>", data);
     // setDay(data.day);
+    setUrl({ value: "hrllloooooo" });
     setUrl(data.url);
     setVideo(data.video);
     setContent(data.content);
@@ -140,14 +141,33 @@ const ShowExhibit = (props) => {
   const updatePhoto = (file) => {
     setImage(file);
   };
-  const updateVideo = (file) =>{
-      console.log('file',file)
-  }
-  
- 
-const BackPage = () =>{
-    setOpen(false)
-}
+  const updateVideo = (file) => {
+    console.log("file", file);
+  };
+
+  const BackPage = () => {
+    setOpen(false);
+  };
+  const handleChangeUrl = (i, event) => {
+    console.log("i", i);
+    const values = [...url];
+    console.log("vvv", values);
+    values[i].value = event.target.value;
+    setUrl(values);
+  };
+  const handleAddUrl = () => {
+    console.log("addval", url);
+    const values = [...url];
+    values.push({ value: null });
+
+    setUrl(values);
+  };
+  const handleRemoveUrl = (i) => {
+    const values = [...url];
+    values.splice(i, 1);
+    setUrl(values);
+  };
+  console.log("url", url);
   return (
     <div>
       <AdminLayout>
@@ -265,11 +285,7 @@ const BackPage = () =>{
                         onChange={(e) => setContent(e.target.value)}
                       />
                     </div>
-                    <img
-                      id="target"
-                      src={logo}
-                      style={{ width: "200px" }}
-                    />
+                    <img id="target" src={logo} style={{ width: "200px" }} />
                     <div className="form-group">
                       <label htmlFor="exampleInputPassword1">Logo</label>
                       <div className="upload-btn-wrapper">
@@ -282,15 +298,38 @@ const BackPage = () =>{
                     </div>
                     <div className="form-group">
                       <label htmlFor="exampleInputPassword1">SITE URL</label>
-                      <input
+                      <button type="button" onClick={() => handleAddUrl()}>
+                        Add
+                      </button>
+
+                      {url.map((field, idx) => {
+                        return (
+                          <div key={`${field}-${idx}`}>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={field.value || ""}
+                              onChange={(e) => handleChangeUrl(idx, e)}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveUrl(idx)}
+                            >
+                              X
+                            </button>
+                          </div>
+                        );
+                      })}
+                      {/* <input
                         type="text"
                         className="form-control"
                         id="exampleInputPassword1"
                         placeholder="Description"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
-                      />
+                      /> */}
                     </div>
+
                     <div className="form-group">
                       <label htmlFor="exampleInputPassword1">Videos</label>
                       <div className="upload-btn-wrapper">
@@ -311,14 +350,13 @@ const BackPage = () =>{
                       }}
                       onClick={BackPage}
                     >
-                     Back
+                      Back
                     </button>
                     <button
                       className="btn btn-warning d-flex justify-content-center"
                       style={{
                         color: "white",
                         background: "#10daef",
-                        textAlign: "center",
                       }}
                       onClick={Update_Exhibit_Data}
                     >

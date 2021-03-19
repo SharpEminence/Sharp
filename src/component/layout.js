@@ -337,7 +337,7 @@ const Layout = (props) => {
                         onClick={() => {
                           localStorage.clear();
 
-                          history.push("/login");
+                          history.push("/");
                         }}
                       >
                         Logout
